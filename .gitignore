@@ -1,0 +1,11 @@
+# Mac
+.DS_Store
+
+# Stats
+stats.json
+
+# Node
+/node_modules
+
+# Build
+build/
