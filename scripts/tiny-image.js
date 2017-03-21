@@ -7,12 +7,13 @@ const path = require('path');
 const PATHS = require(path.join(__dirname + '/../config/paths'));
 
 let assets = [
-	PATHS.assets+'/images/test/panda.jpg'
+	PATHS.assets+'/lazy-images/test/panda.jpg',
+	PATHS.assets+'/lazy-images/wallpaper.jpg'
 ];
 
 deleteTinyFolder = () => {
 	return new Promise((resolve, reject) => {
-		fs.remove(path.join(PATHS.assets,'images-tiny'), (err) => {
+		fs.remove(path.join(PATHS.assets,'lazy-images-tiny'), (err) => {
 			err ? reject(err) : resolve();
 		});
 	});
@@ -28,13 +29,11 @@ createDirectory = (outPath) => {
 };
 
 divideSize = (size) => {
-	
 	let calculatedSize = size;
-	while(calculatedSize > 30) {
+	while(calculatedSize > 50) {
 		calculatedSize = Math.round(calculatedSize * 0.5);
 	}
 	return calculatedSize;
-	
 }
 
 processAsset = (assetPath, outPath) => {
@@ -60,7 +59,7 @@ reduceAsset = () => {
 	return new Promise((resolve, reject) => {
 		let promises = [];
 		_.forEach(assets, (asset) => {
-			const outputFilepath = path.join(PATHS.assets, 'images-tiny', path.relative(PATHS.assets + '/images/', asset));
+			const outputFilepath = path.join(PATHS.assets, 'lazy-images-tiny', path.relative(PATHS.assets + '/lazy-images/', asset));
 			
 			promises.push(
 				createDirectory(outputFilepath)
@@ -76,12 +75,17 @@ reduceAsset = () => {
 	});
 };
 
-deleteTinyFolder()
-	.then(reduceAsset)
-	.then(() => {
-		console.log('[ TinyImg ] Complete');
-	})
-	.catch(() => {
-		console.log('[ TinyImg ] Error');
-	});
+
+processTiny = () => {
+	deleteTinyFolder()
+		.then(reduceAsset)
+		.then(() => {
+			console.log('[ TinyImg ] Complete');
+		})
+		.catch((err) => {
+			console.log('[ TinyImg ] Error ',err);
+		});
+}
+
+module.exports = processTiny;
 	

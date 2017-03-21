@@ -15,6 +15,7 @@ const DEV_CONFIG = require(PATHS.config + '/dev');
 const TARGET = process.env.npm_lifecycle_event;
 process.env.BABEL_ENV = TARGET;
 
+
 // Default configuration
 const common = {
 	entry : {

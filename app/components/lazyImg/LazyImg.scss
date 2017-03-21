@@ -1,4 +1,9 @@
 .b-lazy.b-lazy--img {
 	width: 100%;
 	height: auto;
+	filter:blur(5px);
+	transition : 0.5s filter;
+	&.b-loaded {
+		filter : blur(0px);
+	}
 }
