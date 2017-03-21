@@ -10,39 +10,78 @@ let assets = [
 	PATHS.assets+'/images/test/panda.jpg'
 ];
 
-
-
-function deleteTinyFolder() {
+deleteTinyFolder = () => {
 	return new Promise((resolve, reject) => {
-		fs.remove(path.join(PATHS.assets,'images-tiny'), err => err ? reject() : resolve());
+		fs.remove(path.join(PATHS.assets,'images-tiny'), (err) => {
+			err ? reject(err) : resolve();
+		});
 	});
+};
+
+createDirectory = (outPath) => {
+	return new Promise((resolve, reject) => {
+		fs.ensureDir(path.dirname(outPath), (err) => {
+			if (err) reject(err);
+			else resolve();
+		});
+	});
+};
+
+divideSize = (size) => {
+	
+	let calculatedSize = size;
+	while(calculatedSize > 30) {
+		calculatedSize = Math.round(calculatedSize * 0.5);
+	}
+	return calculatedSize;
+	
 }
 
-function reduceAsset() {
+processAsset = (assetPath, outPath) => {
 	return new Promise((resolve, reject) => {
-		_.forEach(assets, (asset) => {
+		const image = sharp(assetPath);
+		image.metadata()
+			.then((metadata) => {
+				return image
+					.resize(divideSize(metadata.width >= metadata.height ? metadata.width : metadata.height))
+					.webp()
+					.toBuffer()
+			})
+			.then((data) => {
+				image.toFile(outPath)
+					.then(resolve)
+					.catch(reject);
+			})
+			.catch(reject);
+	});	
+};
 
-			const image = sharp(asset);
+reduceAsset = () => {
+	return new Promise((resolve, reject) => {
+		let promises = [];
+		_.forEach(assets, (asset) => {
 			const outputFilepath = path.join(PATHS.assets, 'images-tiny', path.relative(PATHS.assets + '/images/', asset));
-			fs.ensureDir(path.dirname(outputFilepath), (err) => {
-				image.metadata()
-					.then(function (metadata) {
-						console.log(metadata);
-						return image
-							.resize(Math.round(metadata.width / 2))
-							.webp()
-							.toBuffer()
-					})
-					.then(function (data) {
-						console.log(data);
-						image.toFile(outputFilepath);
-					});
-			});
+			
+			promises.push(
+				createDirectory(outputFilepath)
+					.then(() => { processAsset(asset, outputFilepath) })
+					.then(resolve)
+					.catch(reject)
+			)
 			
 		});
-		/*resolve();*/
+		Promise.all(promises)
+			.then(resolve)
+			.catch(reject);
 	});
-}
+};
 
 deleteTinyFolder()
-	.then(reduceAsset);
+	.then(reduceAsset)
+	.then(() => {
+		console.log('[ TinyImg ] Complete');
+	})
+	.catch(() => {
+		console.log('[ TinyImg ] Error');
+	});
+	
