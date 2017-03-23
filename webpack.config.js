@@ -58,7 +58,8 @@ module.exports = function(globalConfig) { return {
 			alias: {
 				assets: PATHS.assets,
 				components : PATHS.components,
-				abstract: PATHS.abstract
+				abstract: PATHS.abstract,
+				config : PATHS.config
 			}
 		}
 	};

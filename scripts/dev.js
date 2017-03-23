@@ -24,16 +24,16 @@ var compiler = webpack(merge(webpackConfig(globalConfig), DEV_CONFIG(globalConfi
 var server = new WebpackDevServer(compiler, {
   contentBase: PATHS.assets,
   hot: true,
-  historyApiFallback: false,
+  historyApiFallback: true,
   compress: true,
   clientLogLevel: "info",
   setup: function (app) {
-    app.use('/api/', phpMiddleware({
+    /*app.use('/api/', phpMiddleware({
       root: PATHS.assets,
       handle404: true,
       bodyRewrite: true,
       headersRewrite: true
-    }));
+    }));*/
   },
   stats: { colors: true }
 });
