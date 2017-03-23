@@ -6,6 +6,8 @@ import LazyImg from 'components/lazyImg/LazyImg';
 const img = "lazy-images/test/panda.jpg";
 const img2 = "lazy-images/wallpaper.jpg";
 
+import 'whatwg-fetch';
+
 export default class App extends React.Component {
 	constructor() {
 		super();
@@ -13,7 +15,14 @@ export default class App extends React.Component {
 	}
 
 	componentDidMount() {
-		
+		/*fetch('api/projects/')
+			.then(function (response) {
+				return response.json()
+			}).then(function (json) {
+				console.log('parsed json', json)
+			}).catch(function (ex) {
+				console.log('parsing failed', ex)
+			})*/
 	}
 
 	render() {

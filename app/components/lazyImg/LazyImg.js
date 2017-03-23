@@ -1,21 +1,39 @@
 require('./LazyImg.scss');
 
 import React from 'react';
-import BLazy from 'abstract/BLazy';
+import {BLAZY, BLazySignal} from 'abstract/BLazy';
 
-export default class LazyImg extends React.Component {
+class LazyImg extends React.Component {
 	constructor(props) {
 		super();
-		
+		this.onLoaded = this.onLoaded.bind(this);
 		this.img = props.src;
 		this.tinyImg = props.src.replace('lazy-images/','lazy-images-tiny/');
 	}
 
 	componentDidMount() {
-		BLazy.load(this.refs.img, true);
+		BLAZY.load(this.refs.img, true);
+		BLazySignal.add(this.onLoaded);
+	}
+
+	componentWillUnmount() {
+		BLazySignal.remove(this.onLoaded);
+	}
+
+	onLoaded(e) {
+		
+		if (e.src.replace(window.location.href, "") === this.img) {
+			BLazySignal.remove(this.onLoaded);
+			this.refs.component.classList.add('loaded');
+		}
 	}
 	
 	render() {
-		return <img ref="img" className="b-lazy b-lazy--img" src={this.tinyImg} data-src={this.img}/>
+		return <div className="b-lazy--img" ref="component">
+			<div className="loader"><span/><span/><span/><span/></div>
+			<img ref="img" className="b-lazy" src={this.tinyImg} data-src={this.img} />
+		</div>;	
 	}
 }
+
+export default LazyImg;

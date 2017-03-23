@@ -2,14 +2,26 @@
 const path = require('path');
  	_ = require('lodash'),
  	fs = require('fs-extra'),
-	sharp = require('sharp');
+	sharp = require('sharp'),
+	glob = require("glob");
 
 const PATHS = require(path.join(__dirname + '/../config/paths'));
 
-let assets = [
-	PATHS.assets+'/lazy-images/test/panda.jpg',
-	PATHS.assets+'/lazy-images/wallpaper.jpg'
-];
+let assets = [];
+
+const MAX_SIZE = 100;
+
+getAssetList = (dirPath) => {
+	return new Promise((resolve, reject) => {
+		glob(dirPath + "/**/*.+(jpg|jpeg|gif|png)", function (er, files) {
+			if (er) reject(err);
+			else {
+				assets = files;
+				resolve(assets);
+			}
+		});
+	});
+}
 
 deleteTinyFolder = () => {
 	return new Promise((resolve, reject) => {
@@ -30,7 +42,7 @@ createDirectory = (outPath) => {
 
 divideSize = (size) => {
 	let calculatedSize = size;
-	while(calculatedSize > 50) {
+	while(calculatedSize > MAX_SIZE) {
 		calculatedSize = Math.round(calculatedSize * 0.5);
 	}
 	return calculatedSize;
@@ -77,7 +89,8 @@ reduceAsset = () => {
 
 
 processTiny = () => {
-	deleteTinyFolder()
+	return getAssetList(path.join(PATHS.assets, 'lazy-images'))
+		.then(deleteTinyFolder)
 		.then(reduceAsset)
 		.then(() => {
 			console.log('[ TinyImg ] Complete');

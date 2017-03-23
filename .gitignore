@@ -9,3 +9,7 @@ stats.json
 
 # Build
 build/
+
+# Kirby
+assets/api/kirby
+assets/api/panel
