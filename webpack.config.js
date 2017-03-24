@@ -20,7 +20,8 @@ module.exports = function(globalConfig) { return {
 		},
 		output : {
 			path : PATHS.app,
-			filename: '[name].js'
+			filename: '[name].js',
+			chunkFilename: "[name].chunk.js"
 		},
 		module : {
 			rules : [

@@ -6,6 +6,10 @@ module.exports = {
 		template: PATHS.app + '/index.hbs',
 		appMountId: 'app',
 		inject: false,
-		publicPath: '/'
+		publicPath: '/',
+		window : {
+			locales : [],
+			path : '/'
+		}
 	}
 }

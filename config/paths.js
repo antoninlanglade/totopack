@@ -1,12 +1,16 @@
 const path = require('path');
 
 module.exports = {
+
 	root: path.join(__dirname, '../'),
 	app: path.join(__dirname, '../app'),
 	build: path.join(__dirname, '../build'),
 	assets: path.join(__dirname, '../assets'),
+	config: __dirname,
+	scripts: path.join(__dirname, '../scripts'),
+
 	style: path.join(__dirname, '../app/main.scss'),
 	components: path.join(__dirname, '../app/components'),
-	config: __dirname,
 	abstract: path.join(__dirname, '../app/abstract')
+	
 };

@@ -5,17 +5,17 @@ const merge = require('webpack-merge');
 const argv = process.argv.slice(2);
 const path = require('path');
 
+// Config files
 const PATHS = require(path.join(__dirname + '/../config/paths'));
-let globalConfig = require(PATHS.config+'/global');
-
-const tinyImage = require('./tiny-image');
 const BUILD_CONFIG = require(PATHS.config + '/build');
+let globalConfig = require(PATHS.config+'/global');
+	
+// Scripts
+const tinyImage = require('./tiny-image');
+const getLocales = require(path.join(PATHS.scripts, 'locales'));
 
-if (argv[0]) {
-	globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.publicPath = argv[0];
-}
-
-const compiler = webpack(merge(webpackConfig(globalConfig), BUILD_CONFIG(globalConfig)));
+// Variables
+let compiler;
 
 launchDevServer = () => {
 	return new Promise((resolve, reject) => {
@@ -31,5 +31,16 @@ launchDevServer = () => {
 
 // launch lazy images compression
 tinyImage()
+	.then(getLocales)
+	.then((locales) => {
+		globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.window.locales = locales;
+
+		if (argv[0]) {
+			globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.publicPath = argv[0];
+			globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.window.path = argv[0];
+		}
+
+		compiler = webpack(merge(webpackConfig(globalConfig), BUILD_CONFIG(globalConfig)));
+	})
 	.then(launchDevServer);
 

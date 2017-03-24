@@ -1,0 +1,52 @@
+# ----------------------------------------------------------------------
+# Start rewrite engine
+# ----------------------------------------------------------------------
+
+# Turning on the rewrite engine is necessary for the following rules and
+# features. FollowSymLinks must be enabled for this to work.
+
+# Some cloud hosting services require RewriteBase to be set: goo.gl/HOcPN
+# If using the h5bp in a subdirectory, use `RewriteBase /foo` instead where
+# 'foo' is your directory.
+
+# If your web host doesn't allow the FollowSymlinks option, you may need to
+# comment it out and use `Options +SymLinksOfOwnerMatch`, but be aware of the
+# performance impact: http://goo.gl/Mluzd
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(cur|gif|ico|jpe?g|png|svgz?|webp)$">
+      SetEnvIf Origin ":" IS_CORS
+      Header set Access-Control-Allow-Origin "*" env=IS_CORS
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks
+  RewriteEngine On
+
+  RewriteCond %{HTTP:Authorization} ^(.+)$
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Pushstate
+# ----------------------------------------------------------------------
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.html [QSA,L]
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Cross-domain AJAX requests
+# ----------------------------------------------------------------------
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Credentials true
+    Header add Access-Control-Allow-Headers "origin, x-requested-with, content-type"
+    Header add Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"    
+</IfModule>
+
+

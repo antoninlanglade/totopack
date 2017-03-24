@@ -21,7 +21,7 @@ class LazyImg extends React.Component {
 	}
 
 	onLoaded(e) {
-		if (e.src.replace(window.location.origin+'/', "") === this.img) {
+		if (e.src.indexOf(this.img) > 1) {
 			BLazySignal.remove(this.onLoaded);
 			this.refs.component.classList.add('loaded');
 		}

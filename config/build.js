@@ -29,8 +29,7 @@ module.exports = function (globalConfig) { return {
 			rules: [
 				{
 					test: /\.(scss|css)$/,
-					loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' }),
-					include: PATHS.app
+					loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' })
 				}]
 		},
 		plugins: [

@@ -19,8 +19,7 @@ module.exports = function(globalConfig) { return {
 			rules: [
 				{
 					test: /\.(scss|css)$/,
-					loaders: ['style-loader', 'css-loader', 'sass-loader'],
-					include: PATHS.app
+					loaders: ['style-loader', 'css-loader', 'sass-loader']
 				}]
 		},
 		plugins: [

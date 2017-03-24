@@ -14,28 +14,20 @@ class App extends React.Component {
 		
 	}
 
-	use(conf) {
+	use(config) {
 		return new Promise((resolve, reject) => {
 			const renderComponent = Component => ReactDOM.render(React.createElement(Component), document.getElementById('app'), resolve);
 			renderComponent(App);
 
-			if (module.hot) module.hot.accept('./components/App', () => {
+			if (module.hot) module.hot.accept(App, () => {
 				renderComponent(App);
 			});
 		});
 	}
 
 	componentDidMount() {
-		/*fetch('api/projects/')
-			.then(function (response) {
-				return response.json()
-			}).then(function (json) {
-				console.log('parsed json', json)
-			}).catch(function (ex) {
-				console.log('parsing failed', ex)
-			})*/
+		
 	}
-	
 
 	render() {
 		return <div className="app">

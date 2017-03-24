@@ -96,7 +96,7 @@ processTiny = () => {
 			console.log('[ TinyImg ] Complete');
 		})
 		.catch((err) => {
-			console.log('[ TinyImg ] Error ',err);
+			console.log('[ TinyImg ] Error ', err);
 		});
 }
 

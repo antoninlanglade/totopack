@@ -1,24 +1,63 @@
 import Navigo from 'navigo';
+import i18n from 'abstract/i18n';
+import _ from 'lodash';
 
 class Router {
 	constructor() {
 		this.use = this.use.bind(this);
+		this.routes = {};
+		
+		this.setAppPage = this.setAppPage.bind(this);
 	}
 
-	use(conf) {
+	use(config) {
 		return new Promise((resolve, reject) => {
-			this.router = new Navigo();
-			this.router.notFound(this.notFound);
-			this.router.on(resolve).resolve();
+			this.app = config.app;
+			this.path = window.location.origin + config.path;
+			this.router = new Navigo(this.path);
+			
+			this.router.on().resolve();
+			this.fetchRoutes()
+					.then(resolve);
+
 		});
 	}
 
-	add(route) {
+	fetchRoutes() {
+		return new Promise((resolve, reject) => {
+			_.forEach(i18n.locales, (locale) => {
+				fetch('i18n/' + locale + '/routes.json')
+					.then((response) => {
+						return response.json()
+					}).then((routes) => {
+						this.routes[locale] = routes;
+						_.forEach(routes, (route, name) =>{
+							this.add(route, name);
+						});
+						
+						this.router.notFound(this.notFound);
 
+						resolve();
+					}).catch((err) => {
+						reject(err);
+					});
+			});
+		});
+		
 	}
 
-	remove(route) {
+	add(route, name) {
 
+		
+		this.router.on(route, this.setAppPage.bind(this, name)).resolve();
+	}
+	
+	remove(route) {
+		
+	}
+
+	setAppPage(page) {
+		console.log('goto',page);
 	}
 
 	notFound() {
@@ -27,6 +66,10 @@ class Router {
 	
 	goto(route) {
 		this.router.navigate(route);
+	}
+
+	destroy() {
+		this.router.destroy();
 	}
 }
 
