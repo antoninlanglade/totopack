@@ -2,7 +2,7 @@ require('./App.scss');
 
 import React from 'react'; 
 import ReactDOM from 'react-dom';
-import Modules from 'components/modules';
+import Modules from 'app/modules';
 import Page from 'abstract/Page';
 import _ from 'lodash';
 
@@ -43,7 +43,6 @@ class App extends React.Component {
 			next = pages.next;
 		
 		this.modules[page]((component) => {
-			console.log(current, next);
 			current.destroy();
 			next.setComponent(component.default, params);
 		});

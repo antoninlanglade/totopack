@@ -6,6 +6,7 @@ import Page from 'abstract/Page';
 
 import LazyImg from 'components/lazyImg/LazyImg';
 import RouterComponent from 'abstract/Router/RouterComponent';
+import i18n from 'abstract/i18n';
 
 const img = "lazy-images/test/panda.jpg";
 const img2 = "lazy-images/wallpaper.jpg";
@@ -17,7 +18,7 @@ class Home extends Page {
 	}
 
 	componentDidMount() {
-		
+		console.log(i18n.localize('test'));
 	}
 
 	render() {

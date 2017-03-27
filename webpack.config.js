@@ -57,6 +57,7 @@ module.exports = function(globalConfig) { return {
 		resolve: {
 			// Alias for paths
 			alias: {
+				app : PATHS.app,
 				assets: PATHS.assets,
 				components : PATHS.components,
 				abstract: PATHS.abstract,
