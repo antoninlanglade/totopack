@@ -2,9 +2,9 @@ require('./Tete.scss');
 
 import React from 'react'; 
 import ReactDOM from 'react-dom';
+import Page from 'abstract/Page';
 
-
-class Tete extends React.Component {
+class Tete extends Page {
 	constructor() {
 		super();
 		
@@ -16,7 +16,7 @@ class Tete extends React.Component {
 
 	render() {
 		return <div className="tete">
-			
+			TETE PAGE
 		</div>;
 	}
 }

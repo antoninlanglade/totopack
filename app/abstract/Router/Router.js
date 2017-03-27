@@ -2,6 +2,7 @@ import Navigo from 'navigo';
 import i18n from 'abstract/i18n';
 import _ from 'lodash';
 
+
 class Router {
 	constructor() {
 		this.use = this.use.bind(this);
@@ -18,7 +19,8 @@ class Router {
 			
 			this.router.on().resolve();
 			this.fetchRoutes()
-					.then(resolve);
+					.then(resolve)
+					.catch(reject);
 
 		});
 	}
@@ -47,8 +49,6 @@ class Router {
 	}
 
 	add(route, name) {
-
-		
 		this.router.on(route, this.setAppPage.bind(this, name)).resolve();
 	}
 	
@@ -57,11 +57,12 @@ class Router {
 	}
 
 	setAppPage(page) {
-		console.log('goto',page);
+		console.log('[Router] goto =>', page);
+		this.app.setPage(page);
 	}
 
 	notFound() {
-		console.log('notfound');
+		console.log('%c[Router] page notfound', Config.failedLog);
 	}
 	
 	goto(route) {

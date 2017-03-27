@@ -2,38 +2,57 @@ require('./App.scss');
 
 import React from 'react'; 
 import ReactDOM from 'react-dom';
-import LazyImg from 'components/lazyImg/LazyImg';
-import RouterComponent from 'abstract/Router/RouterComponent';
+import Modules from 'components/modules';
+import Page from 'abstract/Page';
+import _ from 'lodash';
 
-const img = "lazy-images/test/panda.jpg";
-const img2 = "lazy-images/wallpaper.jpg";
 
 class App extends React.Component {
 	constructor() {
 		super();
+
+		this.setPage = this.setPage.bind(this);
+
+		this.currentPage = 0;
+		this.modules = {};
+		this.storeChunksFunctions();
 		
 	}
 
-	use(config) {
-		return new Promise((resolve, reject) => {
-			const renderComponent = Component => ReactDOM.render(React.createElement(Component), document.getElementById('app'), resolve);
-			renderComponent(App);
-
-			if (module.hot) module.hot.accept(App, () => {
-				renderComponent(App);
-			});
+	storeChunksFunctions() {
+		_.forEach(Modules, (module, name) => {
+			this.modules[name] = module;
 		});
 	}
 
-	componentDidMount() {
-		
+	updateIndexPage() {
+		return (this.currentPage + 1) % 2
 	}
 
-	render() {
-		return <div className="app">
-			<RouterComponent route="/tete">tete</RouterComponent>
-			<LazyImg src={img} />
-			<LazyImg src={img2} />
+	getPage() {
+		const nextIndex = this.updateIndexPage();
+		const current = this.refs['p' + this.currentPage];
+		const next = this.refs['p' + nextIndex];
+		this.currentPage = nextIndex;
+		return {current, next};
+	}
+
+	setPage(page, params) {
+		const pages = this.getPage(),
+			current = pages.current,
+			next = pages.next;
+		
+		this.modules[page]((component) => {
+			console.log(current, next);
+			current.destroy();
+			next.setComponent(component.default, params);
+		});
+	}
+
+	render() {	
+		return <div className="app" ref="app">
+			<Page ref="p0"/>
+			<Page ref="p1"/>
 		</div>;
 	}
 }
