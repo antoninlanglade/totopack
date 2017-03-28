@@ -76,13 +76,11 @@ class Router {
 				i18n.setLocale(locale)
 					.then(() => {
 						route = this.router.generate(locale + '-' + name, params);
-						console.log(route);
 						resolve(route);
 					});
 			}
 			else {
 				route = this.router.generate(i18n.locale + '-' + name, params);
-				console.log(i18n.locale + '-' + name);
 				resolve(route);
 			}
 		});

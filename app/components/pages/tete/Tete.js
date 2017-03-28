@@ -7,7 +7,7 @@ import Page from 'abstract/Page';
 class Tete extends Page {
 	constructor(props) {
 		super();
-
+		console.log(props);
 	}
 
 	componentDidMount() {

@@ -14,10 +14,10 @@ process.env.BABEL_ENV = TARGET;
 
 // Default configuration
 module.exports = function(globalConfig) { return {
-		entry : {
-			app: ['whatwg-fetch', PATHS.app+'/index.js'],
-			style: PATHS.style
-		},
+		entry : [
+			'whatwg-fetch', 
+			PATHS.app+'/index.js'
+		],
 		output : {
 			path : PATHS.app,
 			filename: '[name].js',
@@ -66,13 +66,3 @@ module.exports = function(globalConfig) { return {
 		}
 	};
 }
-/*// Dev & Stats configuration
-if (TARGET === 'start' || !TARGET || TARGET === 'stats') {
-	
-}
-
-// Build configuration
-if (TARGET === 'build') {
-	module.exports = merge(common, BUILD_CONFIG);
-}
-*/

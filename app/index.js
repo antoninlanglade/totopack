@@ -28,7 +28,13 @@ class Main {
 
 var main = new Main();
 
-let reactApp = ReactDOM.render(React.createElement(App), document.getElementById('app'));
+const render = (Component) => {
+  return ReactDOM.render(
+	<Component/>,
+    document.getElementById('app')
+  );
+};
+let reactApp = render(App);
 
 main
 	.use(i18n, { locales: window.locales, files : ['test'] })

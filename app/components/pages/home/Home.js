@@ -23,7 +23,7 @@ class Home extends Page {
 
 	render() {
 		return <div className="home">
-			<RouterComponent route="tete" >tete</RouterComponent>
+			<RouterComponent route="tete" params={{id : "toto"}}>tete</RouterComponent>
 			<LazyImg src={img} />
 			<LazyImg src={img2} />
 		</div>;

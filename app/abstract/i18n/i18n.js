@@ -1,15 +1,23 @@
 import Config from 'config/config';
+const browserLang = require('browser-locale')();
 
 class i18n {
 	constructor() {
-		this.locale = Config.defaultLang;
+		this.locale = null;
 		this.locales = [];
 		this.files = ['main'];
 		this.data = {};
 	}
 
+	getDefaultLocale() {
+		const navigatorLocale = browserLang.split('-')[0];
+		return this.locales.indexOf(navigatorLocale) > -1 ? navigatorLocale : Config.defaultLang;
+	}
+
 	use(config) {
 		this.locales = config.locales;
+		this.locale = this.getDefaultLocale();
+		
 		this.files = this.files.concat(config.files ? config.files : []);
 		return	this.setLocale(this.locale);
 	}

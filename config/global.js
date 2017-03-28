@@ -7,9 +7,7 @@ module.exports = {
 		appMountId: 'app',
 		inject: false,
 		publicPath: '/',
-		
 		favicon : path.join(PATHS.assets, 'images/favicon.png'),
-		
 		window : {
 			locales : [],
 			path : '/'

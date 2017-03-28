@@ -21,10 +21,8 @@ let compiler, server;
 
 launchServer = () => {
   return new Promise((resolve, reject) => {
-    console.log('test');
     server = new WebpackDevServer(compiler, {
       contentBase: PATHS.assets,
-      hot: true,
       historyApiFallback: true,
       compress: true,
       clientLogLevel: "info",
@@ -47,7 +45,7 @@ tinyImage()
   .then(getLocales)
   .then((locales) => {
     globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.window.locales = locales;
-    compiler = webpack(merge(webpackConfig(globalConfig), DEV_CONFIG(globalConfig)));
+    compiler = webpack(merge(DEV_CONFIG(globalConfig), webpackConfig(globalConfig)));
   })
   .then(launchServer)
 
