@@ -44,6 +44,7 @@ class App extends React.Component {
 		
 		this.modules[page]((component) => {
 			current.destroy();
+			
 			next.setComponent(component.default, params);
 		});
 	}

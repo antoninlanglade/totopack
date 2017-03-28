@@ -1,4 +1,6 @@
 {
 	"home" : "/",
-	"tete" : "/tete"
+	"tete": "/fr/product/:id",
+	"product": "/fr/product"
+	
 }

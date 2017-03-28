@@ -1,13 +1,13 @@
-require('./Tete.scss');
+require('./Page404.scss');
 
 import React from 'react'; 
 import ReactDOM from 'react-dom';
 import Page from 'abstract/Page';
 
-class Tete extends Page {
-	constructor(props) {
+class Page404 extends Page {
+	constructor() {
 		super();
-
+		
 	}
 
 	componentDidMount() {
@@ -15,10 +15,10 @@ class Tete extends Page {
 	}
 
 	render() {
-		return <div className="tete">
-			TETE PAGE
+		return <div className="page404">
+			PAGE 404
 		</div>;
 	}
 }
 
-export default Tete;
+export default Page404;

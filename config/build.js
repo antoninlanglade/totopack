@@ -12,13 +12,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
 module.exports = function (globalConfig) { return {
-		entry: {
-			// Exclude all librairies from app.js
-			vendor: Object.keys(pkg.dependencies).filter(function (v) {
-				// Exclude libs
-				return true;
-			})
-		},
 		output: {
 			path: PATHS.build,
 			filename: '[name].[chunkhash].js',
@@ -45,11 +38,6 @@ module.exports = function (globalConfig) { return {
 			]),
 			// Extract css from js
 			new ExtractTextPlugin('[name].[chunkhash].css'),
-			
-			// Optimize vendor with a cache manifest
-			new webpack.optimize.CommonsChunkPlugin({
-				names: ['vendor', 'manifest']
-			}),
 			
 			// NODE Production for size optimization
 			new webpack.DefinePlugin({

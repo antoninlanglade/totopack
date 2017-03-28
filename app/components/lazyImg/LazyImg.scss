@@ -2,6 +2,7 @@
 	width: 100%;
 	position : relative;
 	user-select : none;
+    line-height: 0;
 	.b-lazy { 
 		filter:blur(5px);
 		transition : 0.75s all;

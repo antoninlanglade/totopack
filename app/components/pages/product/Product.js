@@ -1,10 +1,10 @@
-require('./Tete.scss');
+require('./Product.scss');
 
 import React from 'react'; 
 import ReactDOM from 'react-dom';
 import Page from 'abstract/Page';
 
-class Tete extends Page {
+class Product extends Page {
 	constructor(props) {
 		super();
 
@@ -15,10 +15,10 @@ class Tete extends Page {
 	}
 
 	render() {
-		return <div className="tete">
-			TETE PAGE
+		return <div className="product">
+			Product PAGE
 		</div>;
 	}
 }
 
-export default Tete;
+export default Product;
