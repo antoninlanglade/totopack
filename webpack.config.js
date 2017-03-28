@@ -37,7 +37,7 @@ module.exports = function(globalConfig) { return {
 				},
 				// File Loader 
 				{ 
-					test: /\.(png|jpg|jpeg|gif|woff|ttf|otf)$/,
+					test: /\.(png|jpg|jpeg|gif|woff|ttf|otf|ico)$/,
 					loader: 'file-loader',
 					options : {
 						limit : 1
