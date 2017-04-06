@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import Page from 'abstract/Page';
 
 import LazyImg from 'components/lazyImg/LazyImg';
+import ElasticButton from 'components/elasticButton/ElasticButton';
 import RouterComponent from 'abstract/Router/RouterComponent';
 import i18n from 'abstract/i18n/i18n';
 
@@ -23,9 +24,10 @@ class Home extends Page {
 
 	render() {
 		return <div className="home">
-			<RouterComponent route="tete" params={{id : "toto"}}>tete</RouterComponent>
+			<ElasticButton>Elastic Button</ElasticButton>
+			{/*<RouterComponent route="tete" params={{id : "toto"}}>tete</RouterComponent>
 			<LazyImg src={img} />
-			<LazyImg src={img2} />
+			<LazyImg src={img2} />*/}
 		</div>;
 	}
 }

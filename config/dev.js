@@ -1,6 +1,6 @@
 const PATHS = require('./paths');
 const webpack = require('webpack');
-const LiveReloadPlugin = require('webpack-livereload-plugin');
+
 
 module.exports = function(globalConfig) { return {
 		entry : [
