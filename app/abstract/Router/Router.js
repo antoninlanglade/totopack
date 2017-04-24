@@ -10,6 +10,7 @@ class Router {
 		this.notFound = this.notFound.bind(this);
 		this.setAppPage = this.setAppPage.bind(this);
 		this.start = this.start.bind(this);
+		this.firstPage = true; 
 	}
 
 	use(config) {
@@ -45,7 +46,10 @@ class Router {
 							let paramObj = {};
 							// Adding all routes for a locale with prefixed name and setPage fn
 							_.forEach(routes, (route, name) =>{
-								paramObj[route] = { as: locale + '-' + name, uses: this.setAppPage.bind(this, name) };
+								paramObj[route] = { 
+									as: locale + '-' + name, 
+									uses: this.setAppPage.bind(this, name, locale) 
+								};
 							});
 							this.add(paramObj);
 							// 404 Hanlder
@@ -65,24 +69,16 @@ class Router {
 	}	
 
 	remove(route) {
-		
+		this.router.off(route);
 	}
 
-	getRoute(name, params = undefined, locale) {
+	getRoute(name, params = undefined, locale = i18n.locale) {
 		return new Promise((resolve, reject) => {
 			let route;
-			
-			if (locale) {
-				i18n.setLocale(locale)
-					.then(() => {
-						route = this.router.generate(locale + '-' + name, params);
-						resolve(route);
-					});
-			}
-			else {
-				route = this.router.generate(i18n.locale + '-' + name, params);
-				resolve(route);
-			}
+
+			route = this.router.generate(locale + '-' + name, params);
+			resolve(route);
+
 		});
 	} 
 
@@ -114,9 +110,26 @@ class Router {
 		return routeWithParams;
 	}
 
-	setAppPage(page, params) {
-		console.log('[Router] goto =>', page);
-		this.app.setPage(page, params);
+	setAppPage(page, locale, params) {
+		console.log('[Router] goto =>', page, locale, params);
+		console.log(i18n.locale, locale)
+		if (this.firstPage && i18n.locale !== locale) {
+			this.getRoute(page, params, i18n.locale).then((route) => {
+				this.goto(route);
+			});
+			return false;
+		}
+		
+		this.firstPage = false;
+		
+		if (locale !== i18n.locale) {
+			i18n.setLocale(locale)
+				.then(() => this.app.setPage(page, params));
+		}
+		else {
+			this.app.setPage(page, params);
+		}
+		
 	}
 
 	notFound(params) {

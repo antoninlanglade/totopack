@@ -1,4 +1,5 @@
 {
 	"home" : "/en/",
-	"tete" : "/en/:id"
+	"tete" : "/en/tete/:id",
+	"product": "/en/product"
 }

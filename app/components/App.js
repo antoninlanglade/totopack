@@ -2,7 +2,7 @@ require('./App.scss');
 
 import React from 'react'; 
 import ReactDOM from 'react-dom';
-import Modules from 'app/modules';
+import Modules from 'app/Modules';
 import Page from 'abstract/Page';
 import _ from 'lodash';
 

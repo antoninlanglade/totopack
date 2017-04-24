@@ -1,8 +1,11 @@
 import Config from 'config/config';
+import Signal from 'signals';
 const browserLang = require('browser-locale')();
 
-class i18n {
+class i18n extends Signal {
 	constructor() {
+		super();
+		this.localize = this.localize.bind(this);
 		this.locale = null;
 		this.locales = [];
 		this.files = ['main'];
@@ -11,6 +14,7 @@ class i18n {
 
 	getDefaultLocale() {
 		const navigatorLocale = browserLang.split('-')[0];
+		console.log(navigatorLocale);
 		return this.locales.indexOf(navigatorLocale) > -1 ? navigatorLocale : Config.defaultLang;
 	}
 
@@ -32,9 +36,10 @@ class i18n {
 					promises.push(
 						fetch('i18n/' + locale + '/' + file + ".json")
 							.then((response) => {
-								return response.json()
+								return response.json();
 							}).then((response) => {
 								this.data[locale][file] = response;
+								this.onChange();
 							})
 					);
 				});
@@ -44,6 +49,7 @@ class i18n {
 			}
 			// Already fetch 
 			else {
+				this.onChange();
 				resolve();
 			}
 		});
@@ -55,17 +61,18 @@ class i18n {
 	}
 	
 	onChange() {
-
+		this.dispatch(this.locale);
 	}
 
 	localize(key, file = "main", locale = this.locale) {
+		
 		// Existing key
 		if (this.data[locale] && this.data[locale][file] && this.data[locale][file][key]) {
 			return this.data[locale][file][key];
 		}
 		// Missing key
 		else {
-			console.log('[i18n] ',key,' does not exist into',this.locale,' json')
+			console.log('[i18n] ',key,' does not exist into',this.locale, file,'.json')
 		}
 	}
 

@@ -6,6 +6,7 @@ module.exports = {
 		template: PATHS.app + '/index.hbs',
 		appMountId: 'app',
 		inject: false,
+		title : 'totopack',
 		publicPath: '/',
 		favicon : path.join(PATHS.assets, 'images/favicon.png'),
 		window : {

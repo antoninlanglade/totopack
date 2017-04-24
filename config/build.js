@@ -15,7 +15,7 @@ module.exports = function (globalConfig) { return {
 		output: {
 			path: PATHS.build,
 			filename: '[name].[chunkhash].js',
-			chunkFilename: '[chunkhash].js',
+			chunkFilename: 'chunk-[chunkhash].js',
 		},
 		module: {
 			// Loaders
