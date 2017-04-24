@@ -20,7 +20,7 @@ class Home extends Page {
 	}
 
 	componentDidMount() {
-		console.log(i18n.localize('test','test'));
+		
 	}
 
 	render() {

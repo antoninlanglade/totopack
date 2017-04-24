@@ -14,7 +14,6 @@ class i18n extends Signal {
 
 	getDefaultLocale() {
 		const navigatorLocale = browserLang.split('-')[0];
-		console.log(navigatorLocale);
 		return this.locales.indexOf(navigatorLocale) > -1 ? navigatorLocale : Config.defaultLang;
 	}
 

@@ -112,7 +112,6 @@ class Router {
 
 	setAppPage(page, locale, params) {
 		console.log('[Router] goto =>', page, locale, params);
-		console.log(i18n.locale, locale)
 		if (this.firstPage && i18n.locale !== locale) {
 			this.getRoute(page, params, i18n.locale).then((route) => {
 				this.goto(route);

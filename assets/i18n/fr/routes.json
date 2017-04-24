@@ -2,5 +2,4 @@
 	"home" : "/",
 	"tete": "/fr/tete/:id",
 	"product": "/fr/produit"
-	
 }
