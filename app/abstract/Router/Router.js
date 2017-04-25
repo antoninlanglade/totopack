@@ -1,7 +1,7 @@
 import Navigo from 'navigo';
 import i18n from 'abstract/i18n/i18n';
 import _ from 'lodash';
-import Config from 'config/config';
+import Log from 'tools/Log';
 
 class Router {
 	constructor() {
@@ -111,7 +111,7 @@ class Router {
 	}
 
 	setAppPage(page, locale, params) {
-		console.log('[Router] goto =>', page, locale, params);
+		Log('Router',`goto => ${page} ${locale} ${JSON.stringify(params)}`);
 		if (this.firstPage && i18n.locale !== locale) {
 			this.getRoute(page, params, i18n.locale).then((route) => {
 				this.goto(route);
@@ -132,7 +132,7 @@ class Router {
 	}
 
 	notFound(params) {
-		console.log('%c[Router] page notfound', Config.failedLog);
+		Log('Router','page notfound', 0);
 		this.app.setPage('page404', params);
 	}
 	

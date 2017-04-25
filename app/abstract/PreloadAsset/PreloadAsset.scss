@@ -1,0 +1,10 @@
+.preloadAsset {
+	position: relative;
+	line-height: 0;
+	img, video {
+		width : 100%;
+		&.absolute {
+			position : absolute;
+		}
+	}
+}

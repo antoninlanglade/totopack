@@ -30,8 +30,7 @@ module.exports = function(globalConfig) { return {
 					test: /\.(js|jsx)$/,
 					loader: 'babel-loader',
 					options : {
-						cacheDirectory: true,
-						presets: ['react', 'es2015']
+						cacheDirectory: true
 					},
 					include: PATHS.app
 				},
@@ -61,7 +60,8 @@ module.exports = function(globalConfig) { return {
 				assets: PATHS.assets,
 				components : PATHS.components,
 				abstract: PATHS.abstract,
-				config : PATHS.config
+				config : PATHS.config,
+				tools: PATHS.tools,
 			}
 		}
 	};

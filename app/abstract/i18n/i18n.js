@@ -71,7 +71,7 @@ class i18n extends Signal {
 		}
 		// Missing key
 		else {
-			console.log('[i18n] ',key,' does not exist into',this.locale, file,'.json')
+			Log('i18n',` ${key} does not exist into ${this.locale} ${file}.json`, 0)
 		}
 	}
 

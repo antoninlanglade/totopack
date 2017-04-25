@@ -11,6 +11,7 @@ module.exports = {
 
 	style: path.join(__dirname, '../app/main.scss'),
 	components: path.join(__dirname, '../app/components'),
-	abstract: path.join(__dirname, '../app/abstract')
+	abstract: path.join(__dirname, '../app/abstract'),
+	tools: path.join(__dirname, '../app/tools')
 	
 };

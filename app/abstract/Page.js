@@ -2,12 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 export default class Page extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			component : 'div',
-			params : null
-		}
+	constructor(props) {
+		super(props);
 	}
 
 	preload() {
@@ -28,22 +24,7 @@ export default class Page extends React.Component {
 		});
 	}
 	
-	setComponent(component, params, cb) {
-		this.setState({
-			component : component,
-			params : params
-		}, cb);
-	}
-
-	destroy() {
-		this.setState({
-			component : 'div'
-		});
-	}
-
 	render() {
-		return (
-			<this.state.component {...this.state.params} ref="page"/>
-		);
+		return <div/>;
 	}
-}  
+}

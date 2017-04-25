@@ -3,7 +3,7 @@ require('./App.scss');
 import React from 'react'; 
 import ReactDOM from 'react-dom';
 import Modules from 'app/Modules';
-import Page from 'abstract/Page';
+import PageManager from 'abstract/PageManager';
 import _ from 'lodash';
 
 
@@ -16,6 +16,13 @@ class App extends React.Component {
 		this.currentPage = 0;
 		this.modules = {};
 		this.storeChunksFunctions();
+
+		this.isFirstTime = true;
+
+		this.state = {
+			p1 : 'div',
+			p2 : 'div'
+		}
 		
 	}
 
@@ -38,21 +45,40 @@ class App extends React.Component {
 	}
 
 	setPage(page, params) {
-		const pages = this.getPage(),
-			current = pages.current,
-			next = pages.next;
 		
 		this.modules[page]((component) => {
-			current.destroy();
-			
-			next.setComponent(component.default, params);
+			if (this._lastPage === page) {
+				this.refs['p' + this.currentPage].setComponent(null, params);
+			}
+			else {
+				const pages = this.getPage(),
+					current = pages.current,
+					next = pages.next;
+
+				if (this.isFirstTime) {
+					this.isFirstTime = false;
+					Promise.resolve()
+						.then(() => next.setComponent(component.default, params))
+						.then(() => next.preload())
+						.then(() => next.animateIn())
+				}
+				else {
+					Promise.resolve()
+						.then(() => next.setComponent(component.default, params))
+						.then(() => next.preload())
+						.then(() => current.animateOut())
+						.then(() => next.animateIn())
+						.then(() => current.destroy())
+				}
+			}
+			this._lastPage = page;
 		});
 	}
 
 	render() {	
 		return <div className="app" ref="app">
-			<Page ref="p0"/>
-			<Page ref="p1"/>
+			<PageManager ref="p0"/>
+			<PageManager ref="p1"/>
 		</div>;
 	}
 }
