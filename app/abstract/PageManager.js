@@ -34,6 +34,10 @@ export default class PageManager extends React.Component {
 		});
 	}
 
+	setIndex(index) {
+		ReactDOM.findDOMNode(this.refs.page).style.zIndex = index;
+	}
+
 	destroy() {
 		this.setState({
 			component : 'div'
@@ -42,7 +46,7 @@ export default class PageManager extends React.Component {
 
 	render() {
 		return (
-			<this.state.component {...this.state.params} ref="page"/>
+			<this.state.component {...this.state.params} className="page" ref="page"/>
 		);
 	}
 }  

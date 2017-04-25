@@ -33,6 +33,14 @@ class Router {
 		this.router.resolve();
 	}
 
+	pause() {
+		this.router.pause();
+	}
+
+	resume() {
+		this.router.resume();
+	}
+
 	fetchRoutes() {
 		return new Promise((resolve, reject) => {
 			let promises = [];

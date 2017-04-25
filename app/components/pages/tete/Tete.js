@@ -23,6 +23,24 @@ class Tete extends Page {
 		
 	}
 
+	animateIn() {
+		return new Promise((resolve) =>  {
+			TweenLite.to(this.refs.component, 0.5, {
+				opacity: 1,
+				onComplete: resolve
+			})
+		});
+	}
+
+	animateOut() {
+		return new Promise((resolve) => {
+			TweenLite.to(this.refs.component, 0.5, {
+				opacity : 0,
+				onComplete : resolve
+			})
+		});
+	}
+
 	preload() {
 		return new Promise((resolve, reject) => {
 			const loader = new Loader({ onComplete: () => {
@@ -48,7 +66,7 @@ class Tete extends Page {
 				<PreloadAsset key={_.uniqueId()}>{this.toto4}</PreloadAsset>
 			]
 		}
-		return <div className="tete">
+		return <div className="page tete" ref="component">
 			<RouterComponent route="home" >home</RouterComponent>
 			{assets}
 		</div>;

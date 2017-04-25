@@ -9,7 +9,7 @@ import App from 'components/App';
 import i18n from 'abstract/i18n/i18n';
 import Router from 'abstract/Router/Router';
 import Main from './Main';
-
+import TweenLite from 'gsap';
 
 // Render React App
 const render = (Component) => {

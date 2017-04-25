@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import Modules from 'app/Modules';
 import PageManager from 'abstract/PageManager';
 import _ from 'lodash';
+import Router from 'abstract/Router/Router';
 
 
 class App extends React.Component {
@@ -45,10 +46,11 @@ class App extends React.Component {
 	}
 
 	setPage(page, params) {
-		
+		Router.pause();
 		this.modules[page]((component) => {
 			if (this._lastPage === page) {
 				this.refs['p' + this.currentPage].setComponent(null, params);
+				Router.resume();
 			}
 			else {
 				const pages = this.getPage(),
@@ -60,15 +62,20 @@ class App extends React.Component {
 					Promise.resolve()
 						.then(() => next.setComponent(component.default, params))
 						.then(() => next.preload())
+						.then(() => current.setIndex(2))
 						.then(() => next.animateIn())
+						.then(() => Router.resume())
 				}
 				else {
 					Promise.resolve()
 						.then(() => next.setComponent(component.default, params))
 						.then(() => next.preload())
 						.then(() => current.animateOut())
+						.then(() => current.setIndex(1))
+						.then(() => next.setIndex(2))
 						.then(() => next.animateIn())
 						.then(() => current.destroy())
+						.then(() => Router.resume())
 				}
 			}
 			this._lastPage = page;

@@ -36,7 +36,7 @@ let Loader = function(props) {
 
 		// Already exist
 		if (assets[name]) {
-			Log('Loader',` Name ${name} already exist`);
+			Log('Loader',`Name ${name} already exist`);
 			itemsToLoad++;
 			_.defer(progress);
 			return assets[name];
@@ -63,7 +63,8 @@ let Loader = function(props) {
 	const progress = function() {
 		itemsLoaded++;
 		progressPercent = itemsLoaded / itemsToLoad;
-		Log('Loader', `progress ${progressPercent}`);
+		props.onProgress && props.onProgress(progressPercent);
+		// Log('Loader', `progress ${progressPercent}`);
 		if (itemsLoaded === itemsToLoad) finish();
 	}
 

@@ -15,6 +15,7 @@ import Loader from 'abstract/Assets/Loader';
 const img = "lazy-images/test/panda.jpg";
 const img2 = "lazy-images/wallpaper.jpg";
 
+
 class Home extends Page {
 	constructor() {
 		super();
@@ -41,6 +42,24 @@ class Home extends Page {
 		});
 	} 
 
+	animateIn() {
+		return new Promise((resolve) => {
+			TweenLite.to(this.refs.component, 0.5, {
+				opacity: 1,
+				onComplete: resolve
+			})
+		});
+	}
+
+	animateOut() {
+		return new Promise((resolve) =>  {
+			TweenLite.to(this.refs.component, 0.5, {
+				opacity: 0,
+				onComplete: resolve
+			})
+		});
+	}
+
 	componentDidMount() {
 		
 	}
@@ -66,7 +85,7 @@ class Home extends Page {
 			if (locale !== i18n.locale) return <RouterComponent key={"route"+locale} route="home" locale={locale}>HOME_{locale}</RouterComponent>
 		});
 
-		return <div className="home">
+		return <div className="page home" ref="component">
 			<RouterComponent route="tete" params={{id : "toto"}}>tete</RouterComponent>
 			{links}
 			{assets}
