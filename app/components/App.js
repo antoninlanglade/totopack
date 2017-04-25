@@ -3,7 +3,7 @@ require('./App.scss');
 import React from 'react'; 
 import ReactDOM from 'react-dom';
 import Modules from 'app/Modules';
-import PageManager from 'abstract/PageManager';
+import PageManager from 'abstract/Page/PageManager';
 import _ from 'lodash';
 import Router from 'abstract/Router/Router';
 

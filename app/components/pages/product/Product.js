@@ -2,7 +2,7 @@ require('./Product.scss');
 
 import React from 'react'; 
 import ReactDOM from 'react-dom';
-import Page from 'abstract/Page';
+import Page from 'abstract/Page/Page';
 
 class Product extends Page {
 	constructor(props) {

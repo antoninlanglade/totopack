@@ -3,7 +3,7 @@ require('./Tete.scss');
 import React from 'react'; 
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import Page from 'abstract/Page';
+import Page from 'abstract/Page/Page';
 import Loader from 'abstract/Assets/Loader';
 import PreloadAsset from 'abstract/PreloadAsset/PreloadAsset';
 import RouterComponent from 'abstract/Router/RouterComponent';

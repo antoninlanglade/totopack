@@ -2,7 +2,7 @@ require('./Home.scss');
 
 import React from 'react'; 
 import ReactDOM from 'react-dom';
-import Page from 'abstract/Page';
+import Page from 'abstract/Page/Page';
 
 import LazyImg from 'components/lazyImg/LazyImg';
 import ElasticButton from 'components/elasticButton/ElasticButton';

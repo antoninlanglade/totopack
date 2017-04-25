@@ -2,7 +2,7 @@ require('./Page404.scss');
 
 import React from 'react'; 
 import ReactDOM from 'react-dom';
-import Page from 'abstract/Page';
+import Page from 'abstract/Page/Page';
 
 class Page404 extends Page {
 	constructor() {

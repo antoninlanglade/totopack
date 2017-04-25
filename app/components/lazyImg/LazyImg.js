@@ -1,7 +1,7 @@
 require('./LazyImg.scss');
 
 import React from 'react';
-import {BLAZY, BLazySignal} from 'abstract/BLazy';
+import { BLAZY, BLazySignal } from 'abstract/BLazy/BLazy';
 
 class LazyImg extends React.Component {
 	constructor(props) {
