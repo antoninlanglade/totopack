@@ -45,6 +45,7 @@ tinyImage()
   .then(getLocales)
   .then((locales) => {
     globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.window.locales = locales;
+    globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.window.isDev = true;
     compiler = webpack(merge(DEV_CONFIG(globalConfig), webpackConfig(globalConfig)));
   })
   .then(launchServer)

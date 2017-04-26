@@ -24,6 +24,23 @@ git submodule update --recursive
 
 ## Docs
 
+### Run
+To run devServer
+
+```sh
+npm run start
+```
+<br>
+
+### Build
+To build with optionnal subFolder
+
+```sh
+npm run build
+npm run build /subFolder/
+```
+<br>
+
 ### Router
 ```js
 // Get a route from the routes.json name

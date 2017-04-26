@@ -34,6 +34,7 @@ tinyImage()
 	.then(getLocales)
 	.then((locales) => {
 		globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.window.locales = locales;
+		globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.window.isDev = false;
 
 		if (argv[0]) {
 			globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.publicPath = argv[0];

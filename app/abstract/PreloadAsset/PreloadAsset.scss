@@ -1,6 +1,7 @@
 .preloadAsset {
 	position: relative;
 	line-height: 0;
+	display: block;
 	img, video {
 		width : 100%;
 		&.absolute {
