@@ -4,7 +4,7 @@ import Config from 'config/config';
 import AssetImage from './AssetImage';
 import AssetVideo from './AssetVideo';
 import AssetSound from './AssetSound';
-import Extensions from './Extensions';
+import Extensions from './Extensions.json';
 import Log from 'tools/Log';
 
 let assets = {};

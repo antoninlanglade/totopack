@@ -46,6 +46,10 @@ module.exports = function(globalConfig) { return {
 				{ 
 					test: /\.handlebars$/, 
 					loader: "handlebars-loader" 
+				},
+				{
+					test: /\.json$/,
+					use: 'json-loader'
 				}
 			]
 		},
