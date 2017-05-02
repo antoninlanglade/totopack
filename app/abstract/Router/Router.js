@@ -11,6 +11,7 @@ class Router {
 		this.setAppPage = this.setAppPage.bind(this);
 		this.start = this.start.bind(this);
 		this.firstPage = true; 
+		this.isPaused = false;
 	}
 
 	use(config) {
@@ -35,10 +36,12 @@ class Router {
 
 	pause() {
 		this.router.pause();
+		this.isPaused = true;
 	}
 
 	resume() {
 		this.router.resume();
+		this.isPaused = false;
 	}
 
 	fetchRoutes() {
@@ -127,14 +130,19 @@ class Router {
 			return false;
 		}
 		
+		this.pause();
 		this.firstPage = false;
 		
 		if (locale !== i18n.locale) {
 			i18n.setLocale(locale)
-				.then(() => this.app.setPage(page, params));
+				.then(() => this.app.setPage(page, params))
+				.then(() => this.resume())
+				.catch((err) => reject(err))
 		}
 		else {
-			this.app.setPage(page, params);
+			this.app.setPage(page, params)
+					.then(() => this.resume())
+					.catch((err) => reject(err))
 		}
 		
 	}
@@ -145,7 +153,7 @@ class Router {
 	}
 	
 	goto(route) {
-		this.router.navigate(route);
+		!this.isPaused && this.router.navigate(route);
 	}
 
 	destroy() {

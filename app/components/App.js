@@ -46,39 +46,44 @@ class App extends React.Component {
 	}
 
 	setPage(page, params) {
-		Router.pause();
-		this.modules[page]((component) => {
-			if (this._lastPage === page) {
-				this.refs['p' + this.currentPage].setComponent(null, params);
-				Router.resume();
-			}
-			else {
-				const pages = this.getPage(),
-					current = pages.current,
-					next = pages.next;
-
-				if (this.isFirstTime) {
-					this.isFirstTime = false;
-					Promise.resolve()
-						.then(() => next.setComponent(component.default, params))
-						.then(() => next.preload())
-						.then(() => current.setIndex(2))
-						.then(() => next.animateIn())
-						.then(() => Router.resume())
+		return new Promise((resolve, reject) => {
+			this.modules[page]((component) => {
+				if (this._lastPage === page) {
+					this.refs['p' + this.currentPage].setComponent(null, params);
+					resolve();
 				}
 				else {
-					Promise.resolve()
-						.then(() => next.setComponent(component.default, params))
-						.then(() => next.preload())
-						.then(() => current.animateOut())
-						.then(() => current.setIndex(1))
-						.then(() => next.setIndex(2))
-						.then(() => next.animateIn())
-						.then(() => current.destroy())
-						.then(() => Router.resume())
+					const pages = this.getPage(),
+						current = pages.current,
+						next = pages.next;
+
+					if (this.isFirstTime) {
+						this.isFirstTime = false;
+						Promise.resolve()
+							.then(() => next.setComponent(component.default, params))
+							.then(() => next.preload())
+							.then(() => current.setIndex(2))
+							.then(() => next.animateIn())
+							.then(() => Router.resume())
+							.then(() => resolve())
+							.catch((err) => reject(err))
+					}
+					else {
+						Promise.resolve()
+							.then(() => next.setComponent(component.default, params))
+							.then(() => next.preload())
+							.then(() => current.animateOut())
+							.then(() => current.setIndex(1))
+							.then(() => next.setIndex(2))
+							.then(() => next.animateIn())
+							.then(() => current.destroy())
+							.then(() => Router.resume())
+							.then(() => resolve())
+							.catch((err) => reject(err))
+					}
 				}
-			}
-			this._lastPage = page;
+				this._lastPage = page;
+			});
 		});
 	}
 
