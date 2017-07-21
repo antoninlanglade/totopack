@@ -1,15 +1,15 @@
 {
-	"img" : [
-		"png",
-		"jpg",
-		"jpeg",
-		"gif"
-	],
-	"sound" : [
-		"mp3"
-	],
-	"video" : [
-		"mp4",
-		"mov"
-	]
+  "img" : [
+    "png",
+    "jpg",
+    "jpeg",
+    "gif"
+  ],
+  "sound" : [
+    "mp3"
+  ],
+  "video" : [
+    "mp4",
+    "mov"
+  ]
 }

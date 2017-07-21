@@ -2,51 +2,51 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 export default class PageManager extends React.Component {
-	constructor(props) {
-		super(props);
-	
-		this.state = {
-			component : 'div',
-			params : null
-		}
-	}
+  constructor (props) {
+    super(props);
 
-	preload() {
-		return this.refs.page.preload();
-	}
+    this.state = {
+      component: 'div',
+      params: null
+    }
+  }
 
-	animateIn() {
-		return this.refs.page.animateIn();
-	}
+  preload () {
+    return this.refs.page.preload();
+  }
 
-	animateOut() {
-		return this.refs.page.animateOut();
-	}
+  animateIn () {
+    return this.refs.page.animateIn();
+  }
 
-	setComponent(component, params, cb) {
-		return new Promise((resolve, reject) => {
-			this.setState({
-				component: component ? component : this.state.component,
-				params: params ? params : this.state.params
-			}, () => {
-				resolve();
-			});
-		});
-	}
+  animateOut () {
+    return this.refs.page.animateOut();
+  }
 
-	setIndex(index) {
-		ReactDOM.findDOMNode(this.refs.page).style.zIndex = index;
-	}
+  setComponent (component, params, cb) {
+    return new Promise((resolve, reject) => {
+      this.setState({
+        component: component ? component : this.state.component,
+        params: params ? params : this.state.params
+      }, () => {
+        resolve();
+      });
+    });
+  }
 
-	destroy() {
-		this.setState({
-			component : 'div'
-		});
-	}
+  setIndex (index) {
+    ReactDOM.findDOMNode(this.refs.page).style.zIndex = index;
+  }
 
-	render() {
-		return (
-			<this.state.component {...this.state.params} className="page" ref="page"/>
-		);
-	}
-}  
+  destroy () {
+    this.setState({
+      component: 'div'
+    });
+  }
+
+  render () {
+    return (
+      <this.state.component {...this.state.params} className="page" ref="page"/>
+    );
+  }
+}

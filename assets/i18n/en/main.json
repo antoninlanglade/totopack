@@ -1,6 +1,6 @@
 {
-	"test" : {
-		"bonjour" : "testEN"
-	},
-	"toto" : "toto en"
+  "test" : {
+    "bonjour" : "testEN"
+  },
+  "toto" : "toto en"
 }

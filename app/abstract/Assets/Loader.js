@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import Config from 'config/config';
 
 import AssetImage from './AssetImage';
 import AssetVideo from './AssetVideo';
@@ -9,118 +8,116 @@ import Log from 'tools/Log';
 
 let assets = {};
 
-let Loader = function(props) {
-	
-	let isLoading = false;
-	let itemsLoaded = 0;
-	let itemsToLoad = 0;
-	let progressPercent = 0;
-	
-	const add = function(url, name = (_.uniqueId() + '_totopack_asset')) {
+let Loader = function (props) {
+  let isLoading = false;
+  let itemsLoaded = 0;
+  let itemsToLoad = 0;
+  let progressPercent = 0;
 
-		// Check extension
-		const extension = getExtension(url);
-		const type = isExtensionExist(extension);
-		
-		// Don't have url
-		if (!url) {
-			Log('Loader',`Need a valid url`, 0);
-			return false;
-		}
-		
-		// Type unsupport
-		if (!type) {
-			Log('Loader',`Unvalid extension file .${extension}`, 0);
-			return false;
-		}
+  const add = function (url, name = (_.uniqueId() + '_totopack_asset')) {
+    // Check extension
+    const extension = getExtension(url);
+    const type = isExtensionExist(extension);
 
-		// Already exist
-		if (assets[name]) {
-			Log('Loader',`Name ${name} already exist`);
-			itemsToLoad++;
-			_.defer(progress);
-			return assets[name];
-		}
+    // Don't have url
+    if (!url) {
+      Log('Loader', `Need a valid url`, 0);
+      return false;
+    }
 
-		// First item to load from a list
-		if (!isLoading) {
-			isLoading = true;
-		}
-		
-		itemsToLoad++;
-		
-		return assets[name] = createAsset(url, name, type);
-	}
+    // Type unsupport
+    if (!type) {
+      Log('Loader', `Unvalid extension file .${extension}`, 0);
+      return false;
+    }
 
-	const remove = function(name) {
-		assets[name] = null;
-	}
+    // Already exist
+    if (assets[name]) {
+      Log('Loader', `Name ${name} already exist`);
+      itemsToLoad++;
+      _.defer(progress);
+      return assets[name];
+    }
 
-	const get = function (name) {
-		return assets[name];
-	}
+    // First item to load from a list
+    if (!isLoading) {
+      isLoading = true;
+    }
 
-	const progress = function() {
-		itemsLoaded++;
-		progressPercent = itemsLoaded / itemsToLoad;
-		props.onProgress && props.onProgress(progressPercent);
-		// Log('Loader', `progress ${progressPercent}`);
-		if (itemsLoaded === itemsToLoad) finish();
-	}
+    itemsToLoad++;
+    assets[name] = createAsset(url, name, type);
+    return assets[name]
+  }
 
-	const finish = function(cb) {
-		isLoading = false;
-		itemsLoaded = 0;
-		itemsToLoad = 0;
-		progressPercent = 0;
-		Log('Loader','finish', 1);
-		props.onComplete && props.onComplete();
-	}
+  const remove = function (name) {
+    assets[name] = null;
+  }
 
-	const getExtension = function(url) {
-		const arr = url.split('.');
-		return arr[arr.length-1];
-	}
+  const get = function (name) {
+    return assets[name];
+  }
 
-	const isExtensionExist = function(extension) {
-		let isValid = false;
-		for (let type in Extensions) {
-			if (Extensions[type].indexOf(extension) > -1) {
-				isValid = type;
-				break;
-			}
-		}
-		return isValid;
-	}
+  const progress = function () {
+    itemsLoaded++;
+    progressPercent = itemsLoaded / itemsToLoad;
+    props.onProgress && props.onProgress(progressPercent);
+    // Log('Loader', `progress ${progressPercent}`);
+    if (itemsLoaded === itemsToLoad) finish();
+  }
 
-	const createAsset = function(url, name, type) {
-		let asset;
-	
-		switch(type) {
-			case 'img' :
-				asset = new AssetImage({ url, name, cb : progress });
-				break;
+  const finish = function (cb) {
+    isLoading = false;
+    itemsLoaded = 0;
+    itemsToLoad = 0;
+    progressPercent = 0;
+    Log('Loader', 'finish', 1);
+    props.onComplete && props.onComplete();
+  }
 
-			case 'sound':
-				asset = new AssetSound({ url, name, cb: progress });
-				break;
+  const getExtension = function (url) {
+    const arr = url.split('.');
+    return arr[arr.length - 1];
+  }
 
-			case 'video':
-				asset = new AssetVideo({ url, name, cb: progress });
-				break;
+  const isExtensionExist = function (extension) {
+    let isValid = false;
+    for (let type in Extensions) {
+      if (Extensions[type].indexOf(extension) > -1) {
+        isValid = type;
+        break;
+      }
+    }
+    return isValid;
+  }
 
-			default :
-				break;
-		}
+  const createAsset = function (url, name, type) {
+    let asset;
 
-		return asset.asset;
-	}
+    switch (type) {
+      case 'img' :
+        asset = new AssetImage({ url, name, cb: progress });
+        break;
 
-	return {
-		add,
-		remove,
-		get
-	}
+      case 'sound':
+        asset = new AssetSound({ url, name, cb: progress });
+        break;
+
+      case 'video':
+        asset = new AssetVideo({ url, name, cb: progress });
+        break;
+
+      default :
+        break;
+    }
+
+    return asset.asset;
+  }
+
+  return {
+    add,
+    remove,
+    get
+  }
 }
 
 export default Loader;

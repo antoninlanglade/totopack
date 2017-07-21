@@ -1,80 +1,80 @@
 .b-lazy--img {
-	width: 100%;
-	position : relative;
-	user-select : none;
+  width: 100%;
+  position : relative;
+  user-select : none;
     line-height: 0;
-	.b-lazy { 
-		filter:blur(5px);
-		transition : 0.75s all;
-		width : 100%;
-		height: auto;
-		&.b-loaded {
-			filter : blur(0px);
-		}
-	}
-	
-	&.loaded {
-		.loader {
-			opacity: 0;
-		}
-	}
-	
-	$grey:#666;
-	$speed: 1s;
+  .b-lazy {
+    filter:blur(5px);
+    transition : 0.75s all;
+    width : 100%;
+    height: auto;
+    &.b-loaded {
+      filter : blur(0px);
+    }
+  }
 
-	.loader {
-		pointer-events : none;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 40px;
-		height: 40px;
-		z-index : 4;
-		transition : 0.75s all;
-		opacity: 1;
-		span {
-			margin: 0 auto;
-			box-sizing: border-box;
-			float: left;
+  &.loaded {
+    .loader {
+      opacity: 0;
+    }
+  }
 
-			&:nth-child(1),
-			&:nth-child(2),
-			&:nth-child(3),
-			&:nth-child(4), {
-				background-color: $grey;
-				height: 20px;
-				width: 20px;
-				}
-				&:nth-child(1){
-				animation: loop $speed  ease-in-out infinite;      
-				}
-				&:nth-child(2){
-				animation: loop $speed  ease-in-out infinite;
-				animation-delay: .3s;     
-				}
-				&:nth-child(3){
-				animation: loop $speed ease-in-out infinite;
-				animation-delay: .5s;     
-				}
-				&:nth-child(4){
-				animation: loop $speed ease-in-out infinite;
-				animation-delay: .1s;    
-				}
-			}
-	}
+  $grey:#666;
+  $speed: 1s;
 
-	@keyframes loop {
-		0% {
-			opacity: 1;
-		}
+  .loader {
+    pointer-events : none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    z-index : 4;
+    transition : 0.75s all;
+    opacity: 1;
+    span {
+      margin: 0 auto;
+      box-sizing: border-box;
+      float: left;
 
-		50% {
-			opacity: .1;
-		}
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(4), {
+        background-color: $grey;
+        height: 20px;
+        width: 20px;
+        }
+        &:nth-child(1){
+        animation: loop $speed  ease-in-out infinite;
+        }
+        &:nth-child(2){
+        animation: loop $speed  ease-in-out infinite;
+        animation-delay: .3s;
+        }
+        &:nth-child(3){
+        animation: loop $speed ease-in-out infinite;
+        animation-delay: .5s;
+        }
+        &:nth-child(4){
+        animation: loop $speed ease-in-out infinite;
+        animation-delay: .1s;
+        }
+      }
+  }
 
-		100% {
-			opacity: 1;
-		}
-	}
+  @keyframes loop {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: .1;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
 }

@@ -1,5 +1,5 @@
 {
-	"home" : "/en/",
-	"tete" : "/en/tete/:id",
-	"product": "/en/product"
+  "home" : "/en/",
+  "tete" : "/en/tete/:id",
+  "product": "/en/product"
 }

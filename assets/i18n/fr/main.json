@@ -1,6 +1,6 @@
 {
-	"test" : {
-		"bonjour" : "test"
-	},
-	"toto": "bonjour fr"
+  "test" : {
+    "bonjour" : "test"
+  },
+  "toto": "bonjour fr"
 }
