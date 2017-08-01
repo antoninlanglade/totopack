@@ -21,7 +21,7 @@ class Router {
       this.path = window.location.origin + config.path;
       this.router = new Navigo(this.path);
       // Fetch all routes
-      this.fetchRoutes().then(() => resolve()).catch(() => reject(new Error()));
+      this.fetchRoutes().then(() => resolve()).catch((e) => reject(new Error(e)));
     });
   }
 
@@ -64,7 +64,7 @@ class Router {
             }));
       });
 
-      Promise.all(promises).then(() => resolve()).catch(() => reject(new Error()));
+      Promise.all(promises).then(() => resolve()).catch((e) => reject(new Error(e)));
     });
   }
 
@@ -111,6 +111,8 @@ class Router {
 
   setAppPage (page, locale, params) {
     Log('Router', `goto => ${page} ${locale} ${JSON.stringify(params)}`);
+
+    // Security for lang browser redirection to lang
     if (this.firstPage && i18n.locale !== locale) {
       this.getRoute(page, params, i18n.locale).then((route) => {
         this.goto(route);
@@ -125,9 +127,9 @@ class Router {
       i18n.setLocale(locale)
         .then(() => this.app.setPage(page, params))
         .then(() => this.resume())
-        .catch((err) => reject(err));
+        .catch((err) => new Error(err));
     } else {
-      this.app.setPage(page, params).then(() => this.resume()).catch((err) => reject(err));
+      this.app.setPage(page, params).then(() => this.resume()).catch((e) => new Error(e));
     }
   }
 

@@ -3,7 +3,7 @@ import React from 'react';
 import RAF from 'raf';
 import BackgroundTools from 'app/tools/Background';
 
-require('./PreloadAsset.scss')
+require('./PreloadAsset.scss');
 
 class PreloadAsset extends React.Component {
   constructor (props) {

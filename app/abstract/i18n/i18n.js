@@ -46,7 +46,7 @@ class I18n extends Signal {
               })
           );
         });
-        Promise.all(promises).then(() => resolve()).catch(() => reject());
+        Promise.all(promises).then(() => resolve()).catch((e) => reject(new Error(e)));
       } else { // Already fetch
         this.onChange();
         resolve();

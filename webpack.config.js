@@ -1,35 +1,35 @@
-const webpack = require('webpack');
+// const webpack = require('webpack');
 // Paths node
 const path = require('path');
 // Merge config for different envs
-const merge = require('webpack-merge');
+// const merge = require('webpack-merge');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const PATHS = require(path.join(__dirname + '/config/paths'));
-
 
 // npm lunch script (build | start ...)
 const TARGET = process.env.npm_lifecycle_event;
 process.env.BABEL_ENV = TARGET;
 
 // Default configuration
-module.exports = function(globalConfig) { return {
-    entry : [
+module.exports = function (globalConfig) {
+  return {
+    entry: [
       'whatwg-fetch',
-      PATHS.app+'/index.js'
+      PATHS.app + '/index.js'
     ],
-    output : {
-      path : PATHS.app,
+    output: {
+      path: PATHS.app,
       filename: '[name].js',
-      chunkFilename: "[name].chunk.js"
+      chunkFilename: '[name].chunk.js'
     },
-    module : {
-      rules : [
+    module: {
+      rules: [
         // Babel transpiler
         {
           test: /\.(js|jsx)$/,
           loaders: 'babel-loader',
-          options : {
+          options: {
             cacheDirectory: true
           },
           include: PATHS.app
@@ -38,14 +38,14 @@ module.exports = function(globalConfig) { return {
         {
           test: /\.(png|jpg|jpeg|gif|woff|ttf|otf|ico)$/,
           loader: 'file-loader',
-          options : {
-            limit : 1
+          options: {
+            limit: 1
           }
         },
 
         {
           test: /\.handlebars$/,
-          loader: "handlebars-loader"
+          loader: 'handlebars-loader'
         },
         {
           test: /\.json$/,
@@ -60,12 +60,12 @@ module.exports = function(globalConfig) { return {
     resolve: {
       // Alias for paths
       alias: {
-        app : PATHS.app,
+        app: PATHS.app,
         assets: PATHS.assets,
-        components : PATHS.components,
+        components: PATHS.components,
         abstract: PATHS.abstract,
-        config : PATHS.config,
-        tools: PATHS.tools,
+        config: PATHS.config,
+        tools: PATHS.tools
       }
     }
   };
