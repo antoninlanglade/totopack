@@ -8,7 +8,6 @@ module.exports = {
     inject: false,
     title: 'totopack',
     publicPath: '/',
-    favicon: path.join(PATHS.assets, 'images/favicon.png'),
     window: {
       locales: [],
       path: '/'

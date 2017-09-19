@@ -1,13 +1,25 @@
 import BLazy from 'blazy';
-import Signal from 'signals';
 
-const BLazySignal = new Signal();
+const callbacks = new Map();
 
-const BLAZY = new BLazy({
+const blazyInstance = new BLazy({
   selector: '.b-lazy',
   success: (e) => {
-    BLazySignal.dispatch(e);
+    if (!callbacks.has(e)) return false;
+    else {
+      callbacks.get(e)(e);
+      callbacks.delete(e);
+    }
   }
 });
 
-export {BLAZY, BLazySignal};
+function load (el, cb) {
+  callbacks.set(el, cb);
+  blazyInstance.load(el, true);
+};
+
+function destroy (el) {
+  callbacks.delete(el);
+};
+
+export default { load, destroy };

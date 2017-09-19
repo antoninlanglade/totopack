@@ -1,11 +1,8 @@
-// const webpack = require('webpack');
 // Paths node
 const path = require('path');
-// Merge config for different envs
-// const merge = require('webpack-merge');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const PATHS = require(path.join(__dirname + '/config/paths'));
+const PATHS = require(path.join(__dirname, '/config/paths'));
 
 // npm lunch script (build | start ...)
 const TARGET = process.env.npm_lifecycle_event;
@@ -36,7 +33,7 @@ module.exports = function (globalConfig) {
         },
         // File Loader
         {
-          test: /\.(png|jpg|jpeg|gif|woff|ttf|otf|ico)$/,
+          test: /\.(png|jpg|jpeg|gif|ico)$/,
           loader: 'file-loader',
           options: {
             limit: 1
@@ -65,7 +62,9 @@ module.exports = function (globalConfig) {
         components: PATHS.components,
         abstract: PATHS.abstract,
         config: PATHS.config,
-        tools: PATHS.tools
+        tools: PATHS.tools,
+        utils: PATHS.utils,
+        signal: PATHS.signal
       }
     }
   };

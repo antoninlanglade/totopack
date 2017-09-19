@@ -1,6 +1,0 @@
-[submodule "assets/api/kirby"]
-	path = assets/api/kirby
-	url = https://github.com/getkirby/kirby.git
-[submodule "assets/api/panel"]
-	path = assets/api/panel
-	url = https://github.com/getkirby/panel.git

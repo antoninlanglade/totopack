@@ -1,0 +1,28 @@
+@mixin device() {
+  .mobile &,
+  .tablet & {
+    @content;
+  }
+}
+
+@mixin desktop() {
+  .desktop & {
+    @content;
+  }
+}
+
+@mixin minHeight() {
+  @include mq($max-height: 1000px) {
+    @content;
+  }
+}
+
+@mixin smallDesktop() {
+  @include mq($max-width: 1250px) {
+    @content;
+  }
+
+  @include mq($max-height: 800px) {
+    @content;
+  }
+}

@@ -1,36 +1,68 @@
+/* global TweenLite, objectFitPolyfill */
 import React from 'react';
-import { BLAZY, BLazySignal } from 'abstract/BLazy/BLazy';
+import BLAZY from 'abstract/BLazy/BLazy';
+import 'objectFitPolyfill';
+// import EXIF from 'exif-js';
+import Config from 'utils/Config';
+const style = require('./LazyImg.scss');
 
-require('./LazyImg.scss');
+const EXIF_ROTATIONS = [0, 0, 180, 0, 90, 90, -90, -90];
 
 class LazyImg extends React.Component {
   constructor (props) {
     super();
     this.onLoaded = this.onLoaded.bind(this);
-    this.img = props.src;
-    this.tinyImg = props.src.replace('lazy-images/','lazy-images-tiny/');
   }
 
   componentDidMount () {
-    BLAZY.load(this.refs.img, true);
-    BLazySignal.add(this.onLoaded);
+    BLAZY.load(this.refs.img, this.onLoaded);
+  }
+
+  shouldComponentUpdate () {
+    return false;
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const lastImg = this.refs.component.getElementsByTagName('img')[0];
+    if (lastImg.dataset.save === nextProps.src) return;
+    BLAZY.destroy(lastImg);
+    this.refs.component.removeChild(lastImg);
+    const newImage = document.createElement('img');
+    newImage.classList.add('b-lazy');
+    newImage.dataset.src = nextProps.src;
+    newImage.dataset.save = nextProps.src;
+    newImage.dataset.objectFit = nextProps.background;
+    this.refs.component.appendChild(newImage);
+    BLAZY.load(newImage, this.onLoaded);
   }
 
   componentWillUnmount () {
-    BLazySignal.remove(this.onLoaded);
+    BLAZY.destroy(this.refs.img);
   }
 
+  // manageEXIFRotation (img) {
+  //   EXIF.getData(img, function () {
+  //     var orientation = EXIF.getTag(this, 'Orientation');
+  //     if (orientation && !(Config.device && Config.safari)) {
+  //       TweenLite.set(img, {
+  //         rotation: EXIF_ROTATIONS[orientation - 1]
+  //       });
+  //     }
+  //   });
+  // }
+
   onLoaded (e) {
-    if (e.src.indexOf(this.img) > 1) {
-      BLazySignal.remove(this.onLoaded);
-      this.refs.component.classList.add('loaded');
-    }
+    this.props.background && this.refs.component.classList.add(this.props.background);
+    objectFitPolyfill(e);
+    // this.manageEXIFRotation(e);
+    TweenLite.to(e, 1, {
+      opacity: 1
+    });
   }
 
   render () {
-    return <div className="b-lazy--img" ref="component">
-      <div className="loader"><span/><span/><span/><span/></div>
-      <img ref="img" className="b-lazy" src={this.tinyImg} data-src={this.img} />
+    return <div className={[style['b-lazy--img'], this.props.background || ''].join(' ')} ref="component" onClick={this.props.onClick}>
+      <img ref="img" className="b-lazy" src="" data-object-fit={this.props.background} data-src={this.props.src} data-save={this.props.src}/>
     </div>;
   }
 }

@@ -1,14 +1,17 @@
 /* global fetch */
 import Navigo from 'navigo';
 import i18n from 'abstract/i18n/i18n';
-import _ from 'lodash';
+import forEach from 'lodash/forEach';
 import Log from 'tools/Log';
+import Emitter from 'tiny-emitter';
 
-class Router {
+class Router extends Emitter {
   constructor () {
+    super();
     this.use = this.use.bind(this);
     this.notFound = this.notFound.bind(this);
     this.setAppPage = this.setAppPage.bind(this);
+    this.getRoute = this.getRoute.bind(this);
     this.start = this.start.bind(this);
     this.firstPage = true;
     this.isPaused = false;
@@ -16,17 +19,18 @@ class Router {
 
   use (config) {
     return new Promise((resolve, reject) => {
-      this.app = config.app;
       // Path reference
-      this.path = window.location.origin + config.path;
+      this.path = config.baseDir;
       this.router = new Navigo(this.path);
+      this.securityLang = config.securityLang;
       // Fetch all routes
-      this.fetchRoutes().then(() => resolve()).catch((e) => reject(new Error(e)));
-    });
+      this.fetchRoutes().then(() => resolve(config)).catch((e) => reject(new Error(e)));
+      Log('App', 'use router');
+    }).catch((err) => { throw new Error(err); });
   }
 
+  // Launch router listening
   start () {
-    // Launch router listening
     this.router.resolve();
   }
 
@@ -43,16 +47,22 @@ class Router {
   fetchRoutes () {
     return new Promise((resolve, reject) => {
       let promises = [];
+
       // Loop throught locales
-      _.forEach(i18n.locales, (locale) => {
+      forEach(i18n.locales, (locale) => {
         promises.push(
           fetch('i18n/' + locale + '/routes.json')
             .then((response) => {
               return response.json()
             }).then((routes) => {
-              let paramObj = {};
+              let paramObj = {
+                '/': {
+                  as: 'defaultRoute',
+                  uses: this.defaultRouteHandler.bind(this)
+                }
+              };
               // Adding all routes for a locale with prefixed name and setPage fn
-              _.forEach(routes, (route, name) => {
+              forEach(routes, (route, name) => {
                 paramObj[route] = {
                   as: locale + '-' + name,
                   uses: this.setAppPage.bind(this, name, locale)
@@ -65,7 +75,11 @@ class Router {
       });
 
       Promise.all(promises).then(() => resolve()).catch((e) => reject(new Error(e)));
-    });
+    }).catch((err) => { throw new Error(err); });
+  }
+
+  defaultRouteHandler () {
+    this.router.navigate(`/${i18n.getLocale()}/`);
   }
 
   add (route) {
@@ -76,49 +90,18 @@ class Router {
     this.router.off(route);
   }
 
-  getRoute (name, params = undefined, locale = i18n.locale) {
+  getRoute (name, params = {}, locale = i18n.locale) {
     return new Promise((resolve, reject) => {
       let route;
       route = this.router.generate(locale + '-' + name, params);
       resolve(route);
-    });
-  }
-
-  injectParams (route, params) {
-    let routeWithParams = '';
-    let splitRoute = route.split('/');
-    let currentParam, splitItem;
-    for (let i = 0; i < splitRoute.length; i++) {
-      splitItem = splitRoute[i];
-      if (splitItem[0] === ':') {
-        // Conditional
-        if (splitItem[splitItem.length - 1] === '?') {
-          currentParam = splitItem.slice(1, splitItem.length - 1);
-          if (params[currentParam]) {
-            routeWithParams += params[currentParam] + '/'
-          }
-        } else { // Required
-          currentParam = splitItem.slice(1, splitItem.length);
-          routeWithParams += params[currentParam] + '/';
-        }
-      } else {
-        routeWithParams += splitItem + '/';
-      }
-    }
-
-    return routeWithParams;
+    }).catch((err) => { throw new Error(err); });
   }
 
   setAppPage (page, locale, params) {
     Log('Router', `goto => ${page} ${locale} ${JSON.stringify(params)}`);
-
-    // Security for lang browser redirection to lang
-    if (this.firstPage && i18n.locale !== locale) {
-      this.getRoute(page, params, i18n.locale).then((route) => {
-        this.goto(route);
-      });
-      return false;
-    }
+    this.lastRoute = page;
+    this.lastParams = params;
 
     this.pause();
     this.firstPage = false;
@@ -127,10 +110,22 @@ class Router {
       i18n.setLocale(locale)
         .then(() => this.app.setPage(page, params))
         .then(() => this.resume())
-        .catch((err) => new Error(err));
+        .then(() => this.emit('change', this.lastRoute))
+        .catch((err) => { throw new Error(err); });
     } else {
-      this.app.setPage(page, params).then(() => this.resume()).catch((e) => new Error(e));
+      this.app.setPage(page, params)
+        .then(() => this.resume())
+        .then(() => this.emit('change', this.lastRoute))
+        .catch((err) => { throw new Error(err); });
     }
+  }
+
+  getLastRoute () {
+    return this.lastRoute;
+  }
+
+  getLastParams () {
+    return this.lastParams;
   }
 
   notFound (params) {

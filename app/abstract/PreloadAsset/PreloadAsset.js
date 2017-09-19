@@ -1,4 +1,4 @@
-/* global HTMLImageElement, HTMLVideoElement, TweenMax */
+/* global HTMLImageElement, HTMLVideoElement, TweenLite */
 import React from 'react';
 import RAF from 'raf';
 import BackgroundTools from 'app/tools/Background';
@@ -45,7 +45,7 @@ class PreloadAsset extends React.Component {
       size = BackgroundTools.cover(elementBounds.width, elementBounds.height, containerBounds.width, containerBounds.height);
     }
 
-    TweenMax.set(this.props.children, {
+    TweenLite.set(this.props.children, {
       width: size.width,
       height: size.height,
       left: size.x,
@@ -63,7 +63,7 @@ class PreloadAsset extends React.Component {
   }
 
   render () {
-    return <span className={['preloadAsset', this.props.className ? this.props.className : ''].join(' ')} ref="dom"/>
+    return <span className={['preload-asset', this.props.className ? this.props.className : ''].join(' ')} ref="dom"/>
   }
 }
 

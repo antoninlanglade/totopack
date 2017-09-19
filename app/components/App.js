@@ -1,16 +1,18 @@
 import React from 'react';
 import Modules from 'app/Modules';
-import _ from 'lodash';
+import forEach from 'lodash/forEach';
 import Router from 'abstract/Router/Router';
-import PageManager from 'abstract/page/PageManager';
+import PageManager from 'abstract/Page/PageManager';
+import PreLoader from 'abstract/PreLoader/PreLoader';
 
-require('./App.scss');
+const style = require('./App.scss');
 
 class App extends React.Component {
   constructor () {
     super();
-
+    this.scrollTop = this.scrollTop.bind(this);
     this.setPage = this.setPage.bind(this);
+
     this.currentPage = 0;
     this.modules = {};
     this.storeChunksFunctions();
@@ -20,11 +22,20 @@ class App extends React.Component {
     this.state = {
       p1: 'div',
       p2: 'div'
-    }
+    };
+  }
+
+  componentDidMount () {
+    this.$app = document.getElementById('app');
+    this.$body = document.getElementsByTagName('body')[0];
+  }
+
+  componentWillUnmount () {
+
   }
 
   storeChunksFunctions () {
-    _.forEach(Modules, (module, name) => {
+    forEach(Modules, (module, name) => {
       this.modules[name] = module;
     });
   }
@@ -54,37 +65,49 @@ class App extends React.Component {
 
           if (this.isFirstTime) {
             this.isFirstTime = false;
+
             Promise.resolve()
               .then(() => next.setComponent(component.default, params))
               .then(() => next.preload())
-              .then(() => current.setIndex(2))
+              .then(() => next.setIndex(2))
+              .then(() => this.scrollTop())
               .then(() => next.animateIn())
+              .then(() => PreLoader.hide())
               .then(() => Router.resume())
               .then(() => resolve())
-              .catch((err) => reject(err))
+              .catch((err) => reject(new Error(err)));
           } else {
             Promise.resolve()
+              .then(() => PreLoader.show())
               .then(() => next.setComponent(component.default, params))
               .then(() => next.preload())
               .then(() => current.animateOut())
               .then(() => current.setIndex(1))
               .then(() => next.setIndex(2))
+              .then(() => this.scrollTop())
               .then(() => next.animateIn())
               .then(() => current.destroy())
+              .then(() => PreLoader.hide())
               .then(() => Router.resume())
               .then(() => resolve())
-              .catch((err) => reject(err))
+              .catch((err) => reject(new Error(err)));
           }
         }
         this._lastPage = page;
       });
-    });
+    }).catch((err) => { throw new Error(err); });
+  }
+
+  scrollTop () {
+    this.$body.scrollTop = 0;
   }
 
   render () {
-    return <div className="app" ref="app">
-      <PageManager ref="p0"/>
-      <PageManager ref="p1"/>
+    return <div className={style.app} ref='app'>
+      <div className='pages'>
+        <PageManager ref='p0'/>
+        <PageManager ref='p1'/>
+      </div>
     </div>;
   }
 }

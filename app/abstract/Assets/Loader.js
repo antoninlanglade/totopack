@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import uniqueId from 'lodash/uniqueId';
+import defer from 'lodash/defer';
 
 import AssetImage from './AssetImage';
 import AssetVideo from './AssetVideo';
@@ -14,7 +15,7 @@ let Loader = function (props) {
   let itemsToLoad = 0;
   let progressPercent = 0;
 
-  const add = function (url, name = (_.uniqueId() + '_totopack_asset')) {
+  function add (url, name = (uniqueId() + '_totopack_asset')) {
     // Check extension
     const extension = getExtension(url);
     const type = isExtensionExist(extension);
@@ -35,7 +36,7 @@ let Loader = function (props) {
     if (assets[name]) {
       Log('Loader', `Name ${name} already exist`);
       itemsToLoad++;
-      _.defer(progress);
+      defer(progress);
       return assets[name];
     }
 
@@ -46,7 +47,7 @@ let Loader = function (props) {
 
     itemsToLoad++;
     assets[name] = createAsset(url, name, type);
-    return assets[name]
+    return assets[name];
   }
 
   const remove = function (name) {

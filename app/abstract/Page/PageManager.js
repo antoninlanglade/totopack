@@ -31,7 +31,7 @@ export default class PageManager extends React.Component {
       }, () => {
         resolve();
       });
-    });
+    }).catch((err) => { throw new Error(err); });
   }
 
   setIndex (index) {
@@ -40,7 +40,8 @@ export default class PageManager extends React.Component {
 
   destroy () {
     this.setState({
-      component: 'div'
+      component: 'div',
+      params: null
     });
   }
 

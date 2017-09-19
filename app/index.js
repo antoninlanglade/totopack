@@ -1,31 +1,29 @@
+/* global Detectizr */
 import Log from 'tools/Log';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from 'components/App';
 import i18n from 'abstract/i18n/i18n';
 import Router from 'abstract/Router/Router';
-import Main from './Main';
-import TweenMax from 'gsap';
+import Main from './tools/Main';
+import Resize from 'tools/Resize';
+import ReactApp from 'tools/ReactApp';
+import Config from 'utils/Config';
 
 require('./main.scss');
 require('normalize.css');
 
-// Render React App
-const render = (Component) => {
-  return ReactDOM.render(
-    <Component/>,
-    document.getElementById('app')
-  );
-};
+Detectizr.detect({detectScreen: false});
 
-let reactApp = render(App);
+const main = new Main(Config);
 
-// Localized files
-const FILES = ['test']
-
-Main
-  .use(i18n, { locales: window.locales, files: FILES })
-  .use(Router, { app: reactApp, path: window.path })
+main
+  .use(Resize)
+  .use(i18n)
+  .use(Router)
+  .use(ReactApp)
+  .use(() => new Promise((resolve) => {
+    if (Config.urlLocale === '') Config.urlLocale = i18n.getLocale();
+    resolve();
+  }))
   .start(() => {
     Log('App', 'setup success', 1);
     Router.start();

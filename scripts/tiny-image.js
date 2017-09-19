@@ -1,20 +1,20 @@
 // Paths node
 const path = require('path');
-   _ = require('lodash'),
-   fs = require('fs-extra'),
-  sharp = require('sharp'),
-  glob = require("glob");
+const _ = require('lodash');
+const fs = require('fs-extra');
+const sharp = require('sharp');
+const glob = require('glob');
 
-const PATHS = require(path.join(__dirname + '/../config/paths'));
+const PATHS = require(path.join(__dirname, '/../config/paths'));
 
 let assets = [];
 
 const MAX_SIZE = 100;
 
-getAssetList = (dirPath) => {
-  return new Promise((resolve, reject) => {
-    glob(dirPath + "/**/*.+(jpg|jpeg|gif|png)", function (er, files) {
-      if (er) reject(err);
+const getAssetList = (dirPath) => {
+  return new Promise((resolve, reject) => {
+    glob(dirPath + '/**/*.+(jpg|jpeg|gif|png)', function (er, files) {
+      if (er) reject(new Error(er));
       else {
         assets = files;
         resolve(assets);
@@ -23,15 +23,15 @@ getAssetList = (dirPath) => {
   });
 }
 
-deleteTinyFolder = () => {
+const deleteTinyFolder = () => {
   return new Promise((resolve, reject) => {
-    fs.remove(path.join(PATHS.assets,'lazy-images-tiny'), (err) => {
+    fs.remove(path.join(PATHS.assets, 'lazy-images-tiny'), (err) => {
       err ? reject(err) : resolve();
     });
   });
 };
 
-createDirectory = (outPath) => {
+const createDirectory = (outPath) => {
   return new Promise((resolve, reject) => {
     fs.ensureDir(path.dirname(outPath), (err) => {
       if (err) reject(err);
@@ -40,15 +40,15 @@ createDirectory = (outPath) => {
   });
 };
 
-divideSize = (size) => {
+const divideSize = (size) => {
   let calculatedSize = size;
-  while(calculatedSize > MAX_SIZE) {
+  while (calculatedSize > MAX_SIZE) {
     calculatedSize = Math.round(calculatedSize * 0.5);
   }
   return calculatedSize;
 }
 
-processAsset = (assetPath, outPath) => {
+const processAsset = (assetPath, outPath) => {
   return new Promise((resolve, reject) => {
     const image = sharp(assetPath);
     image.metadata()
@@ -67,19 +67,17 @@ processAsset = (assetPath, outPath) => {
   });
 };
 
-reduceAsset = () => {
+const reduceAsset = () => {
   return new Promise((resolve, reject) => {
     let promises = [];
     _.forEach(assets, (asset) => {
       const outputFilepath = path.join(PATHS.assets, 'lazy-images-tiny', path.relative(PATHS.assets + '/lazy-images/', asset));
-
       promises.push(
         createDirectory(outputFilepath)
           .then(() => { processAsset(asset, outputFilepath) })
           .then(resolve)
           .catch(reject)
-      )
-
+      );
     });
     Promise.all(promises)
       .then(resolve)
@@ -87,8 +85,7 @@ reduceAsset = () => {
   });
 };
 
-
-processTiny = () => {
+const processTiny = () => {
   return getAssetList(path.join(PATHS.assets, 'lazy-images'))
     .then(deleteTinyFolder)
     .then(reduceAsset)

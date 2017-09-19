@@ -18,24 +18,42 @@
     <meta charset="utf-8">
     <base href="<%= htmlWebpackPlugin.options.publicPath %>">
     <title>
-      <%= htmlWebpackPlugin.options.title || "totopack" %>
+      TOTOPACK
     </title>
 
-    <% if (htmlWebpackPlugin.files.favicon) { %>
-      <link rel="shortcut icon" href="<%= htmlWebpackPlugin.files.favicon %>">
-    <% } %>
-    <% if (htmlWebpackPlugin.options.mobile) { %>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-    <% } %>
+
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
 
     <% for (var css in htmlWebpackPlugin.files.css) { %>
       <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
     <% } %>
 
+    <script src="js/modernizr.js"></script>
+    <script src="js/detectizr.js"></script>
     <script src="js/polyfill.js"></script>
+
+    <style>
+      #loader {
+        z-index: 9999;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        overflow: hidden;
+        color: white;
+      }
+
+    </style>
+
   </head>
 
-    <body>
+    <body class='progress'>
+
+      <div id="loader">
+        LOADER
+      </div>
 
       <% if (htmlWebpackPlugin.options.appMountId) { %>
         <div id="<%= htmlWebpackPlugin.options.appMountId%>"></div>
@@ -55,6 +73,8 @@
         </script>
       <% } %>
 
+      <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+
       <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
         <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
       <% } %>
@@ -62,7 +82,6 @@
       <% if (htmlWebpackPlugin.options.devServer) { %>
         <script src="<%= htmlWebpackPlugin.options.devServer%>/webpack-dev-server.js"></script>
       <% } %>
-
 
       <% if (htmlWebpackPlugin.options.googleAnalytics) { %>
       <script>
@@ -78,10 +97,8 @@ i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
             <% if (htmlWebpackPlugin.options.googleAnalytics.pageViewOnLoad) { %>
               ga('send', 'pageview');
               <% } %>
-
       </script>
         <% } %>
-
     </body>
 
 </html>

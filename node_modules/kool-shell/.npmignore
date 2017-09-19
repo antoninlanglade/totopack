@@ -1,0 +1,23 @@
+assets
+test
+dirty_tests
+.gitignore
+.travis.yml
+appveyor.yml
+
+
+## NODE ##
+.tmp
+logs
+*.log
+pids
+*.pid
+*.seed
+node_modules
+
+## OSX ##
+.AppleDouble
+.LSOverride
+Icon
+# Thumbnails
+._*
