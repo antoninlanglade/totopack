@@ -2,7 +2,7 @@
 
 <br>
 
-### Webpack starter with optionnal Kirby CMS
+### Webpack React starter
 
 <br>
 
@@ -11,13 +11,6 @@
 ```sh
 cd totopack
 npm install
-```
-
-<br>
-
-## Kirby submodules
-```sh
-git submodule update --recursive
 ```
 
 <br>
