@@ -4,9 +4,8 @@ const webpack = require('webpack');
 module.exports = function (globalConfig) {
   return {
     entry: [
-      'react-hot-loader/patch',
       'webpack-dev-server/client?http://localhost:8080',
-      'webpack/hot/only-dev-server'
+      'webpack/hot/dev-server'
     ],
     // Launch devServer
     devServer: {
@@ -42,7 +41,6 @@ module.exports = function (globalConfig) {
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin()
-    // prints more readable module names in the browser console on HMR updates
     ]
   };
 }

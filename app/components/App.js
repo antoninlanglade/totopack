@@ -103,7 +103,7 @@ class App extends React.Component {
   }
 
   render () {
-    return <div className={style.app} ref='app'>
+    return <div className='app' ref='app'>
       <div className='pages'>
         <PageManager ref='p0'/>
         <PageManager ref='p1'/>

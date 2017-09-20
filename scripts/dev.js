@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
-const phpMiddleware = require('php-server-middleware')
 const WebpackDevServer = require('webpack-dev-server');
 const PATHS = require(path.join(__dirname, '/../config/paths'));
 
@@ -23,7 +22,8 @@ const launchServer = () => {
       historyApiFallback: true,
       compress: true,
       clientLogLevel: 'info',
-      disableHostCheck: true,
+      hot: true,
+      inline: true,
       stats: { colors: true }
     });
 
@@ -38,6 +38,9 @@ Promise.resolve()
     globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.window.isDev = true;
     globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.window.conf = config.dev;
 
-    compiler = webpack(merge(DEV_CONFIG(globalConfig), webpackConfig(globalConfig)));
+    compiler = webpack(merge(
+                    webpackConfig(globalConfig),
+                    DEV_CONFIG(globalConfig)
+                  ));
   })
   .then(launchServer)

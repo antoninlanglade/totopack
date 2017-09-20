@@ -6,7 +6,7 @@ const style = require('./Home.scss');
 
 class Home extends Page {
   render () {
-    return <div className={[style.home, 'page'].join(' ')}>
+    return <div className='home page'>
       HOME
       <RouterComponent route="test">test</RouterComponent>
     </div>;

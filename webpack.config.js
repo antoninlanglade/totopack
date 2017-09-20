@@ -12,7 +12,6 @@ process.env.BABEL_ENV = TARGET;
 module.exports = function (globalConfig) {
   return {
     entry: [
-      'whatwg-fetch',
       PATHS.app + '/index.js'
     ],
     output: {

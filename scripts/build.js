@@ -17,7 +17,7 @@ const getLocales = require(path.join(PATHS.scripts, 'locales'));
 // Variables
 let compiler;
 
-const launchDevServer = () => {
+const launchCompiler = () => {
   return new Promise((resolve, reject) => {
     compiler.apply(new ProgressBarPlugin());
     compiler.run((err, stats) => {
@@ -45,6 +45,11 @@ Promise.resolve()
       globalConfig.HTML_WEBPACK_PLUGIN_CONFIG.window.path = argv[0];
     }
 
-    compiler = webpack(merge(webpackConfig(globalConfig), BUILD_CONFIG(globalConfig)));
+    compiler = webpack(
+                merge(
+                  webpackConfig(globalConfig),
+                  BUILD_CONFIG(globalConfig)
+                )
+              );
   })
-  .then(launchDevServer);
+  .then(launchCompiler);
