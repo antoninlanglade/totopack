@@ -21,7 +21,6 @@ body.progress {
   height: 100%;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  background: red;
 
   &.no-scroll {
     overflow: hidden;
