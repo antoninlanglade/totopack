@@ -44,7 +44,7 @@ const Config = assign({
   files: [],
   path: window.path,
   securityLang: false,
-  baseDir: window.location.origin + (window.conf.path ? window.conf.path : '')
+  baseDir: window.location.origin + (window.path ? window.path : '')
 }, window.conf);
 
 function getLocaleFromUrl () {
