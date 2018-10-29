@@ -1,5 +1,11 @@
 import Config from 'utils/Config';
 
+const COLORS = {
+  successLog: 'background: green; color: white; display: block;',
+  errorLog: 'background: red; color: white; display: block;',
+  defaultLog: 'background: white; color: black; display: block;',
+}
+
 export default function Log (component = 'Global', message, type = 'default') {
   if (!Config.isDev) return false;
 
@@ -12,11 +18,11 @@ export default function Log (component = 'Global', message, type = 'default') {
   let style;
 
   if (type === TYPES.DEFAULT) {
-    style = Config.defaultLog
+    style = COLORS.defaultLog
   } else if (type === TYPES.SUCCESS) {
-    style = Config.successLog
+    style = COLORS.successLog
   } else if (type === TYPES.ERROR) {
-    style = Config.errorLog
+    style = COLORS.errorLog
   }
 
   console.log(`%c[${component}] ${message}`, style);
