@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
-const _ = require('lodash');
+const forEach = require('lodash/forEach');
 const PATHS = require(path.join(__dirname, '/../config/paths'));
 
 const getLocales = () => {
@@ -10,7 +10,7 @@ const getLocales = () => {
       else {
         const langs = [];
         const regex = /^\..*/;
-        _.forEach(files, (file) => {
+        forEach(files, (file) => {
           if (!regex.test(file)) langs.push(file);
         });
         resolve(langs)

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <base href="<%= htmlWebpackPlugin.options.window['path'] %>">
+    <title></title>
+
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
+
+    <% for (var css in htmlWebpackPlugin.files.css) { %>
+      <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
+    <% } %>
+
+    <script src="js/modernizr.js"></script>
+    <script src="js/detectizr.js"></script>
+    <script src="js/polyfill.js"></script>
+
+    <style>
+      #loader {
+        z-index: 9999;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        color: white;
+        background: black;
+      }
+
+    </style>
+
+  </head>
+  <body>
+    <div id="loader">LOADER</div>
+    <main id="app"></main>
+
+    <% if (htmlWebpackPlugin.options.window) { %>
+      <script>
+        window['config'] = {};
+        <% for (var varName in htmlWebpackPlugin.options.window) { %>
+          window['config']['<%=varName%>'] = <%= JSON.stringify(htmlWebpackPlugin.options.window[varName]) %>;
+        <% } %>
+      </script>
+    <% } %>
+
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+
+    <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+      <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+    <% } %>
+
+    <% if (htmlWebpackPlugin.options.devServer) { %>
+      <script src="<%= htmlWebpackPlugin.options.devServer%>/webpack-dev-server.js"></script>
+    <% } %>
+  </body>
+
+</html>
