@@ -1,4 +1,4 @@
-import Config from 'utils/Config';
+import Config from 'config/index';
 
 const COLORS = {
   successLog: 'background: green; color: white; display: block;',

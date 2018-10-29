@@ -6,7 +6,7 @@ import Router from 'abstract/router/Router';
 import Main from './tools/Main';
 import Resize from 'tools/resize';
 import ReactApp from 'tools/reactApp';
-import Config from 'utils/Config';
+import Config from 'config/index';
 
 require('./main.scss');
 require('normalize.css');

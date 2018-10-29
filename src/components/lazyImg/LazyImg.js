@@ -2,7 +2,7 @@
 import React from 'react';
 import BLAZY from 'abstract/BLazy/BLazy';
 import 'objectFitPolyfill';
-// import Config from 'utils/Config';
+// import Config from 'config/index';
 // import EXIF from 'exif-js';
 const style = require('./LazyImg.scss');
 

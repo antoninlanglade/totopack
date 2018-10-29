@@ -84,7 +84,7 @@ const config = {
     ].concat(current.rules)
   },
   resolve: {
-    modules: [PATHS.config, PATHS.src, PATHS.assets, PATHS.nodeModules]
+    modules: [PATHS.src, PATHS.assets, PATHS.nodeModules]
   },
   target: 'web',
   stats: 'errors-only',
