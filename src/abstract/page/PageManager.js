@@ -47,7 +47,6 @@ export default class PageManager extends React.Component {
 
   setIndex (index) {
     this.$page.style.zIndex = index //eslint-disable-line
-    console.log(this.$page)
   }
 
   destroy () {
