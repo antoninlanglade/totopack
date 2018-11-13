@@ -1,7 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 
 export default class PageManager extends React.Component {
+  page = React.createRef()
+
   constructor (props) {
     super(props);
 
@@ -11,16 +13,24 @@ export default class PageManager extends React.Component {
     }
   }
 
+  componentDidMount () {
+    this.$page = findDOMNode(this.page.current) //eslint-disable-line
+  }
+
+  componentWillUnmount () {
+    this.$page = null
+  }
+
   preload () {
-    return this.refs.page.preload();
+    return this.page.current.preload();
   }
 
   animateIn () {
-    return this.refs.page.animateIn();
+    return this.page.current.animateIn();
   }
 
   animateOut () {
-    return this.refs.page.animateOut();
+    return this.page.current.animateOut();
   }
 
   setComponent (component, params, cb) {
@@ -29,13 +39,15 @@ export default class PageManager extends React.Component {
         component: component ? component : this.state.component,
         params: params ? params : this.state.params
       }, () => {
+        this.$page = findDOMNode(this.page.current) //eslint-disable-line
         resolve();
       });
     }).catch((err) => { throw new Error(err); });
   }
 
   setIndex (index) {
-    ReactDOM.findDOMNode(this.refs.page).style.zIndex = index;
+    this.$page.style.zIndex = index //eslint-disable-line
+    console.log(this.$page)
   }
 
   destroy () {
@@ -47,7 +59,7 @@ export default class PageManager extends React.Component {
 
   render () {
     return (
-      <this.state.component {...this.state.params} className="page" ref="page"/>
+      <this.state.component {...this.state.params} className="page" ref={this.page}/>
     );
   }
 }

@@ -1,5 +1,5 @@
 import throttle from 'lodash/throttle';
-import Store from './Store';
+import store from './store';
 import Log from 'tools/log';
 
 function Resize () {
@@ -14,7 +14,7 @@ function Resize () {
   }
 
   function resize (e) {
-    Store.set('resize', { width: window.innerWidth, height: window.innerHeight });
+    store.set('resize', { width: window.innerWidth, height: window.innerHeight });
   }
 
   function init () {

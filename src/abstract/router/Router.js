@@ -109,12 +109,12 @@ class Router extends Emitter {
       i18n.setLocale(locale)
         .then(() => this.app.setPage(page, params))
         .then(() => this.resume())
-        .then(() => this.emit('change', this.lastRoute))
+        .then(() => this.emit('change', page))
         .catch((err) => { throw new Error(err); });
     } else {
       this.app.setPage(page, params)
         .then(() => this.resume())
-        .then(() => this.emit('change', this.lastRoute))
+        .then(() => this.emit('change', page))
         .catch((err) => { throw new Error(err); });
     }
   }
