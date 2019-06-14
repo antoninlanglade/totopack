@@ -1,9 +1,7 @@
-/* global fetch */
 import Emitter from 'tiny-emitter';
 import forEach from 'lodash/forEach';
 import Log from 'tools/log';
-
-const browserLang = require('browser-locale')();
+import { fetch } from 'whatwg-fetch'
 
 class I18n extends Emitter {
   constructor () {
@@ -16,8 +14,7 @@ class I18n extends Emitter {
   }
 
   getDefaultLocale (defaultLang) {
-    const navigatorLocale = browserLang.split('-')[0].toLowerCase();
-    return this.locales.indexOf(navigatorLocale) > -1 ? navigatorLocale : defaultLang;
+    return 'fr';
   }
 
   use (config) {
@@ -25,6 +22,7 @@ class I18n extends Emitter {
       this.locales = config.locales;
       this.locale = this.getDefaultLocale(config.defaultLang);
       this.files = this.files.concat(config.files ? config.files : []);
+
       Log('App', `use i18n current locale : ${this.locale}`);
 
       this.setLocale(this.locale)

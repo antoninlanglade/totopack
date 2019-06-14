@@ -15,7 +15,7 @@ function mouseLoading (bool) {
 
 function hide () {
   return new Promise((resolve) => {
-    $dom.style.display = 'none';
+    $dom.classList.add('hide')
     mouseLoading(false);
     resolve();
   });

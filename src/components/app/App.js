@@ -2,7 +2,7 @@ import React from 'react';
 import Modules from 'modules';
 import Router from 'abstract/router/Router';
 import PageManager from 'abstract/Page/PageManager';
-import PreLoader from 'abstract/PreLoader/PreLoader';
+import PreLoader from 'abstract/preLoader/preLoader';
 
 require('./App.scss');
 
