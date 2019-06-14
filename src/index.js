@@ -11,7 +11,7 @@ import Config from 'config/index';
 require('./main.scss');
 require('normalize.css');
 
-Detectizr.detect({detectScreen: false});
+Detectizr.detect({ detectScreen: false })
 
 window.onload = () => {
   const main = new Main(Config);

@@ -10,6 +10,7 @@ let desktop;
 let ie;
 let safari9;
 let safari;
+let ios;
 
 if ($html.classList.contains('ie') || $html.classList.contains('ie11') || $html.classList.contains('edge')) {
   ie = true;
@@ -33,6 +34,8 @@ if ($html.classList.contains('mobile')) {
   desktop = true;
 }
 
+if ($html.classList.contains('ios')) ios = true
+
 const Config = {
   mobile,
   tablet,
@@ -41,7 +44,9 @@ const Config = {
   ie,
   safari,
   safari9,
+  ios,
   files: [],
+  GA: '',
   locales: window.config.locales,
   defaultLang: 'fr',
   path: window.config.path,

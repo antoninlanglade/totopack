@@ -1,35 +1,25 @@
-import throttle from 'lodash/throttle';
-import store from './store';
-import Log from 'tools/log';
+import globals from 'store/globals'
 
-function Resize () {
-  let resizeDebounce = throttle(resize, 200);
-
-  function use (config) {
-    return new Promise((resolve) => {
-      init();
-      Log('App', 'use resize');
-      resolve(config);
-    }).catch((err) => { throw new Error(err); });
-  }
-
-  function resize (e) {
-    store.set('resize', { width: window.innerWidth, height: window.innerHeight });
-  }
-
-  function init () {
-    resize();
-    window.addEventListener('resize', resizeDebounce);
-  }
-
-  function remove () {
-    window.removeEventListener('resize', resizeDebounce);
-  }
-
-  return {
-    use,
-    init,
-    remove
-  };
+function resize (e) {
+  globals.size.set({ w: window.innerWidth, h: window.innerHeight })
 }
-export default Resize();
+
+function listen () {
+  window.addEventListener('resize', resize)
+  resize()
+}
+
+function use () {
+  listen()
+  return Promise.resolve()
+}
+
+function unlisten () {
+  window.removeEventListener('resize', resize)
+}
+
+export default {
+  unlisten,
+  resize,
+  use
+}

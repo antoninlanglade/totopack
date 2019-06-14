@@ -57,7 +57,7 @@ const config = {
         }
       },
       {
-        test: /\.(png|jpg|jpeg|gif|ico)$/,
+        test: /\.(png|jpg|jpeg|gif|ico|eot|ttf|otf)$/,
         loader: 'file-loader',
         options: {
           limit: 1,
@@ -99,15 +99,17 @@ module.exports = async function () {
   }
 
   const locales = await getLocales()
+
   params.window = { locales, isDev: IS_DEV, path: '/' }
 
   if (!IS_DEV) {
     const argv = process.argv.slice(2)
-    params.window['path'] = argv[0]
+    params.window['path'] = argv[0] || '/'
   }
 
   config.plugins.push(
-    new HtmlWebpackPlugin(params)
+    new HtmlWebpackPlugin(Object.assign(params, { filename: `index.html` }))
   )
+
   return config
 }
