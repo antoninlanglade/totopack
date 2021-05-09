@@ -15,7 +15,7 @@
   "dependencies": {
     "browser-cookies": "^1.2.0",
     "browser-locale": "^1.0.3",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.21",
     "navigo": "^7.1.2",
     "normalize.css": "^8.0.0",
     "objectFitPolyfill": "^2.0.5",
